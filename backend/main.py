@@ -11,6 +11,7 @@ from backend.core.mandate import SpendingMandate, CryptographicEngine
 from backend.integrations.paypal_client import PayPalClient
 from backend.integrations.channel3_client import Channel3CatalogClient
 from backend.agents.procurement_agent import ProcurementAgent
+from backend.agents.dispute_agent import DisputeResolutionAgent
 from backend.webhooks.listener import global_webhook_store
 
 app = FastAPI(title="NexusPay Autonomous Agentic Commerce API", version="1.0.0")
@@ -34,9 +35,16 @@ agent = ProcurementAgent(
     paypal_client=paypal_client,
     catalog_client=catalog_client
 )
+dispute_agent = DisputeResolutionAgent(
+    agent_id="AGENT-DISPUTE-ORACLE-01",
+    crypto_engine=crypto_engine,
+    paypal_client=paypal_client
+)
+
 
 # In-memory database of active mandates and settled orders
 active_mandates: Dict[str, Dict[str, Any]] = {}
+active_disputes: List[Dict[str, Any]] = []
 transaction_ledger: List[Dict[str, Any]] = [
     {
         "tx_id": "TX-984102",
@@ -77,6 +85,16 @@ class RunProcurementRequest(BaseModel):
     goal: str
     query: str
     force_multisig_approve: bool = False
+
+class TriggerDisputeRequest(BaseModel):
+    tx_id: str
+    breach_type: str = "INVALID_LICENSE_KEY"
+    incident_details: Optional[str] = "Merchant digital credential failed cryptographic verification"
+
+class VerifyMandateRequest(BaseModel):
+    mandate: Dict[str, Any]
+    signature: str
+
 
 @app.get("/api/health")
 async def health_check():
@@ -181,6 +199,70 @@ async def receive_paypal_webhook(request: Request):
     payload = await request.json()
     record = global_webhook_store.process_incoming_webhook(payload)
     return {"status": "SUCCESS", "event": record}
+
+@app.post("/api/agent/dispute")
+async def trigger_dispute(req: TriggerDisputeRequest):
+    # Locate transaction in ledger
+    tx = next((t for t in transaction_ledger if t["tx_id"] == req.tx_id), None)
+    if not tx:
+        raise HTTPException(status_code=404, detail=f"Transaction {req.tx_id} not found in ledger")
+
+    result = await dispute_agent.evaluate_and_resolve_dispute(
+        transaction=tx,
+        breach_type=req.breach_type,
+        incident_details=req.incident_details or "Autonomous agent detected non-compliant SLA delivery."
+    )
+
+    if result.get("success"):
+        # Update transaction ledger status
+        tx["status"] = "REFUNDED (DISPUTE RESOLVED)"
+        tx["dispute_id"] = result["dispute_id"]
+        tx["refund_id"] = result.get("refund_id")
+
+        # Save to dispute history
+        active_disputes.insert(0, {
+            "dispute_id": result["dispute_id"],
+            "tx_id": req.tx_id,
+            "merchant": tx.get("merchant"),
+            "item": tx.get("item"),
+            "amount_usd": tx.get("amount_usd"),
+            "breach_type": req.breach_type,
+            "resolution": result.get("resolution"),
+            "evidence_hash": result.get("evidence_hash"),
+            "refund_id": result.get("refund_id"),
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+        })
+
+        # Emit webhook event
+        global_webhook_store.process_incoming_webhook({
+            "event_type": "CUSTOMER.DISPUTE.RESOLVED",
+            "summary": f"Dispute {result['dispute_id']} resolved in favor of Buyer. Refund {result.get('refund_id')} completed.",
+            "resource": {
+                "id": result["dispute_id"],
+                "transaction_id": tx["tx_id"],
+                "amount": {"value": str(tx["amount_usd"]), "currency_code": "USD"}
+            }
+        })
+
+    return result
+
+@app.get("/api/disputes")
+async def get_disputes():
+    return active_disputes
+
+@app.post("/api/mandates/verify")
+async def verify_mandate_tamper(req: VerifyMandateRequest):
+    try:
+        mandate_obj = SpendingMandate(**req.mandate)
+        is_valid = crypto_engine.verify_mandate_signature(mandate_obj, req.signature)
+        return {
+            "valid": is_valid,
+            "mandate_id": mandate_obj.mandate_id,
+            "hash_evaluated": crypto_engine._compute_payload_hash(mandate_obj)
+        }
+    except Exception as e:
+        return {"valid": False, "error": str(e)}
+
 
 # Serve static dashboard UI
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")
