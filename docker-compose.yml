@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  nexuspay:
+    build: .
+    container_name: nexuspay-protocol
+    ports:
+      - "8000:8000"
+    environment:
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID:-}
+      - PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET:-}
+      - PAYPAL_ENVIRONMENT=${PAYPAL_ENVIRONMENT:-sandbox}
+      - NEXUS_HMAC_SECRET=${NEXUS_HMAC_SECRET:-nexuspay-autonomous-secret-key-prod-2026}
+    restart: unless-stopped
