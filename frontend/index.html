@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusPay — Zero-Trust Autonomous Commerce Protocol for PayPal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- AG Grid Community & Quartz Dark Theme -->
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-quartz.css">
+
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --bg-card: #121824;
+      --bg-card-hover: #182030;
+      --border: #1f293d;
+      --accent-blue: #0070ba;
+      --accent-cyan: #00e5ff;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-amber: #f59e0b;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      background: rgba(18, 24, 36, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #0070ba, #00e5ff);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+    }
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .brand-badge {
+      font-size: 0.7rem;
+      background: rgba(0, 112, 186, 0.2);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
+    }
+
+    /* Main Grid Layout */
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 2rem;
+    }
+
+    /* Left Panel: Autonomous Agent Controller */
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    input, select, textarea {
+      background: #0d121c;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #fff;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0070ba, #009cde);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.85rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0, 112, 186, 0.4);
+    }
+
+    .agent-feed {
+      background: #090c13;
+      border: 1px solid #1a2233;
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .feed-entry {
+      line-height: 1.4;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    }
+    .feed-time { color: var(--text-muted); }
+    .feed-step { color: var(--accent-cyan); font-weight: 600; }
+    .feed-status-SUCCESS { color: var(--accent-green); }
+    .feed-status-FAILED, .feed-status-BLOCKED { color: var(--accent-red); }
+    .feed-status-PENDING_APPROVAL { color: var(--accent-amber); font-weight: 700; }
+
+    /* Right Panel: AG Grid & Stats */
+    .dashboard-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.35rem;
+    }
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .grid-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+    }
+    #ledgerGrid {
+      height: 480px;
+      width: 100%;
+    }
+
+    /* Modal for Multi-Sig Co-Signature */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--accent-amber);
+      border-radius: 16px;
+      width: 480px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      box-shadow: 0 10px 40px rgba(245, 158, 11, 0.2);
+    }
+    .modal-title {
+      color: var(--accent-amber);
+      font-size: 1.2rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body class="ag-theme-quartz-dark">
+
+  <header>
+    <div class="brand">
+      <div class="brand-logo">N</div>
+      <div class="brand-title">NexusPay</div>
+      <div class="brand-badge">PayPal Agentic Rail</div>
+    </div>
+    <div style="display:flex; gap: 1rem; align-items:center;">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span>PAYPAL_SANDBOX_ACTIVE</span>
+      </div>
+      <div class="status-pill" style="color:var(--accent-cyan); border-color:rgba(0,229,255,0.3); background:rgba(0,229,255,0.1);">
+        <span>POLICY_HMAC_ENFORCED</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left: Agent Intent & Mandate Control -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">🤖 Autonomous Agent Intent</div>
+      </div>
+
+      <div class="control-group">
+        <label>Select Pre-configured Mandate</label>
+        <select id="mandateSelect">
+          <option value="MND-DEV-OPS-01">MND-DEV-OPS-01 ($1,500 Cap • Hardware/Cloud)</option>
+          <option value="MND-SECURITY-RESTRICTED">MND-SECURITY-RESTRICTED ($300 Cap • Software Only)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>Procurement Goal</label>
+        <textarea id="agentGoal" rows="2">Procure cloud server compute node for model training spike</textarea>
+      </div>
+
+      <div class="control-group">
+        <label>Channel3 Catalog Query</label>
+        <input type="text" id="catalogQuery" value="AWS EC2 m6i" placeholder="e.g. AWS EC2, JetBrains, H100...">
+      </div>
+
+      <button class="btn-primary" id="btnExecute">
+        <span>⚡ Launch Autonomous Procurement</span>
+      </button>
+
+      <div class="panel-header" style="margin-top:0.5rem;">
+        <div class="panel-title" style="font-size:0.9rem;">📡 Live Agent Execution Feed</div>
+      </div>
+      <div class="agent-feed" id="agentFeed">
+        <div class="feed-entry">
+          <span class="feed-time">[00:00:00]</span> <span class="feed-step">IDLE:</span> Ready for autonomous agent dispatch.
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Metrics & AG Grid Command Center -->
+    <div class="dashboard-right">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Settled Volume</div>
+          <div class="stat-value" id="statVolume" style="color:var(--accent-cyan);">$637.00</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Autonomous Orders</div>
+          <div class="stat-value" id="statOrders" style="color:#fff;">2</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Zero-Trust Breaches Blocked</div>
+          <div class="stat-value" id="statBlocked" style="color:var(--accent-red);">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Policy Adherence</div>
+          <div class="stat-value" style="color:var(--accent-green);">100%</div>
+        </div>
+      </div>
+
+      <div class="grid-container">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-weight:700; font-size:1.1rem; display:flex; align-items:center; gap:0.5rem;">
+            <span>📊 Real-Time Financial Ledger</span>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-family:'JetBrains Mono';">(Powered by AG Grid)</span>
+          </div>
+          <button id="btnRefreshGrid" style="background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer;">
+            ↻ Refresh
+          </button>
+        </div>
+        
+        <div id="ledgerGrid"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Multi-Sig Modal -->
+  <div class="modal-overlay" id="multisigModal">
+    <div class="modal">
+      <div class="modal-title">
+        <span>⚠️ Multi-Sig Co-Signature Required</span>
+      </div>
+      <div id="multisigDetails" style="font-size:0.9rem; line-height:1.5; color:var(--text-muted);">
+        The agent attempted to procure an item exceeding the policy threshold ($250.00). Co-signature is required before PayPal settlement.
+      </div>
+      <div style="display:flex; gap:1rem; justify-content:flex-end;">
+        <button id="btnRejectMultisig" style="background:#261818; color:var(--accent-red); border:1px solid var(--accent-red); padding:0.6rem 1.2rem; border-radius:8px; cursor:pointer; font-weight:700;">
+          Deny Settlement
+        </button>
+        <button id="btnApproveMultisig" style="background:var(--accent-amber); color:#000; border:none; padding:0.6rem 1.2rem; border-radius:8px; cursor:pointer; font-weight:700;">
+          Co-Sign & Authorize PayPal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let gridApi = null;
+    let pendingMultisigPayload = null;
+    let blockedCount = 0;
+
+    const columnDefs = [
+      { field: "tx_id", headerName: "TX ID", width: 120, pinned: 'left', cellRenderer: p => `<span style="font-family:'JetBrains Mono'; color:var(--accent-cyan);">${p.value}</span>` },
+      { field: "timestamp", headerName: "Timestamp", width: 170 },
+      { field: "item", headerName: "Item Description", flex: 2 },
+      { field: "merchant", headerName: "Merchant / Vendor", flex: 1 },
+      { 
+        field: "amount_usd", 
+        headerName: "Amount (USD)", 
+        width: 140,
+        cellRenderer: p => `<span style="font-family:'JetBrains Mono'; font-weight:700; color:#fff;">$${parseFloat(p.value).toFixed(2)}</span>`
+      },
+      { 
+        field: "paypal_order_id", 
+        headerName: "PayPal Order ID", 
+        flex: 1.5,
+        cellRenderer: p => `<span style="font-family:'JetBrains Mono'; font-size:0.8rem; color:var(--text-muted);">${p.value}</span>`
+      },
+      { 
+        field: "status", 
+        headerName: "Status", 
+        width: 130,
+        cellRenderer: p => `<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.3); padding:0.2rem 0.5rem; border-radius:4px; font-size:0.75rem; font-weight:700;">${p.value}</span>`
+      }
+    ];
+
+    async function initGrid() {
+      const gridDiv = document.querySelector('#ledgerGrid');
+      const resp = await fetch('/api/ledger');
+      const rowData = await resp.json();
+
+      const gridOptions = {
+        columnDefs: columnDefs,
+        rowData: rowData,
+        theme: "legacy",
+        animateRows: true,
+        pagination: true,
+        paginationPageSize: 10
+      };
+
+      gridApi = agGrid.createGrid(gridDiv, gridOptions);
+      updateStats(rowData);
+    }
+
+    function updateStats(rows) {
+      const total = rows.reduce((acc, r) => acc + (parseFloat(r.amount_usd) || 0), 0);
+      document.getElementById('statVolume').innerText = `$${total.toFixed(2)}`;
+      document.getElementById('statOrders').innerText = rows.length;
+      document.getElementById('statBlocked').innerText = blockedCount;
+    }
+
+    function appendFeed(step, status, details) {
+      const feed = document.getElementById('agentFeed');
+      const time = new Date().toTimeString().split(' ')[0];
+      const div = document.createElement('div');
+      div.className = 'feed-entry';
+      div.innerHTML = `<span class="feed-time">[${time}]</span> <span class="feed-step">${step}:</span> <span class="feed-status-${status}">[${status}]</span> ${typeof details === 'object' ? JSON.stringify(details) : details}`;
+      feed.appendChild(div);
+      feed.scrollTop = feed.scrollHeight;
+    }
+
+    document.getElementById('btnExecute').addEventListener('click', async () => {
+      const mandateId = document.getElementById('mandateSelect').value;
+      const goal = document.getElementById('agentGoal').value;
+      const query = document.getElementById('catalogQuery').value;
+
+      appendFeed("DISPATCHING_AGENT", "INFO", { goal, query, mandate_id: mandateId });
+
+      try {
+        const resp = await fetch('/api/agent/procure', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mandate_id: mandateId, goal, query })
+        });
+        const data = await resp.json();
+
+        // Render agent logs
+        if (data.logs) {
+          data.logs.forEach(l => appendFeed(l.step, l.status, l.details));
+        }
+
+        if (data.status === "PENDING_MULTISIG") {
+          pendingMultisigPayload = { mandate_id: mandateId, goal, query };
+          document.getElementById('multisigDetails').innerHTML = `
+            <strong>Item:</strong> ${data.item.title}<br>
+            <strong>Merchant:</strong> ${data.item.merchant}<br>
+            <strong>Price:</strong> $${data.item.price_usd.toFixed(2)}<br><br>
+            <em>This transaction exceeds the autonomous 2FA threshold. Confirm human approval to execute PayPal settlement.</em>
+          `;
+          document.getElementById('multisigModal').style.display = 'flex';
+          return;
+        }
+
+        if (data.status === "REJECTED_BY_POLICY") {
+          blockedCount++;
+          document.getElementById('statBlocked').innerText = blockedCount;
+        }
+
+        refreshGridData();
+      } catch (err) {
+        appendFeed("AGENT_ERROR", "FAILED", err.message);
+      }
+    });
+
+    document.getElementById('btnApproveMultisig').addEventListener('click', async () => {
+      document.getElementById('multisigModal').style.display = 'none';
+      if (!pendingMultisigPayload) return;
+
+      appendFeed("MULTISIG_APPROVED", "SUCCESS", "Human principal co-signed transaction with Passkey.");
+
+      const resp = await fetch('/api/agent/procure', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...pendingMultisigPayload, force_multisig_approve: true })
+      });
+      const data = await resp.json();
+      if (data.logs) {
+        data.logs.forEach(l => appendFeed(l.step, l.status, l.details));
+      }
+      refreshGridData();
+    });
+
+    document.getElementById('btnRejectMultisig').addEventListener('click', () => {
+      document.getElementById('multisigModal').style.display = 'none';
+      appendFeed("MULTISIG_REJECTED", "BLOCKED", "Human principal denied authorization. PayPal transaction cancelled.");
+      blockedCount++;
+      document.getElementById('statBlocked').innerText = blockedCount;
+    });
+
+    async function refreshGridData() {
+      const resp = await fetch('/api/ledger');
+      const data = await resp.json();
+      if (gridApi) {
+        gridApi.setGridOption('rowData', data);
+      }
+      updateStats(data);
+    }
+
+    document.getElementById('btnRefreshGrid').addEventListener('click', refreshGridData);
+
+    // Initial setup on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initGrid();
+      // Setup default mock mandate
+      fetch('/api/mandates', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          max_budget_usd: 1500.0,
+          allowed_categories: ["cloud_compute", "software_licenses", "infrastructure", "networking"],
+          allowed_merchants: null,
+          require_2fa_above_usd: 250.0,
+          validity_hours: 24
+        })
+      });
+    });
+  </script>
+</body>
+</html>
