@@ -142,6 +142,7 @@ async def list_mandates():
     ]
 
 @app.post("/api/agent/procure")
+@app.post("/api/agent/run")
 async def run_procurement(req: RunProcurementRequest):
     mandate_data = active_mandates.get(req.mandate_id)
     if not mandate_data:

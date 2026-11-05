@@ -27,6 +27,14 @@ class CryptographicEngine:
     def __init__(self, secret_key: str):
         self.secret_key = secret_key.encode("utf-8")
 
+    def compute_payload_hash(self, mandate: SpendingMandate) -> str:
+        """Computes deterministic SHA256 hash of mandate attributes."""
+        payload = json.dumps(mandate.model_dump(), sort_keys=True).encode("utf-8")
+        return hashlib.sha256(payload).hexdigest()
+
+    def _compute_payload_hash(self, mandate: SpendingMandate) -> str:
+        return self.compute_payload_hash(mandate)
+
     def sign_mandate(self, mandate: SpendingMandate) -> str:
         """Generates HMAC-SHA256 signature for tamper-proof delegation."""
         payload = json.dumps(mandate.model_dump(), sort_keys=True).encode("utf-8")
