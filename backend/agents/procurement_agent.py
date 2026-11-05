@@ -61,20 +61,23 @@ class ProcurementAgent:
             "category": selected_item["category"]
         })
 
-        # 2. Cryptographic Policy & Mandate Evaluation
+        # 2. Cryptographic Policy & Mandate Evaluation with Nonce
+        tx_nonce = f"NONCE-{uuid.uuid4().hex[:12].upper()}"
         eval_result = MandatePolicyEvaluator.evaluate(
             mandate=mandate,
             signature=signature,
             crypto=self.crypto_engine,
             item_category=selected_item["category"],
             price_usd=selected_item["price_usd"],
-            merchant_name=selected_item["merchant"]
+            merchant_name=selected_item["merchant"],
+            nonce=tx_nonce
         )
 
         if not eval_result.allowed:
             self._log("POLICY_CHECK", "BLOCKED", {
                 "allowed": False,
-                "violation_reason": eval_result.reason
+                "violation_reason": eval_result.reason,
+                "remaining_budget": eval_result.remaining_budget_usd
             })
             return {
                 "success": False,
@@ -101,6 +104,8 @@ class ProcurementAgent:
         self._log("POLICY_CHECK", "PASSED", {
             "mandate_id": mandate.mandate_id,
             "allocated_usd": selected_item["price_usd"],
+            "remaining_allowance": eval_result.remaining_budget_usd - selected_item["price_usd"],
+            "nonce": tx_nonce,
             "status": "CLEARED_FOR_PAYPAL_SETTLEMENT"
         })
 
@@ -119,9 +124,16 @@ class ProcurementAgent:
 
         # 4. Settle / Capture via PayPal
         capture_res = await self.paypal_client.capture_order(order_id)
+        
+        # Atomically record cumulative spend & nonce consumption
+        mandate.current_spent_usd += selected_item["price_usd"]
+        mandate.used_nonces.append(tx_nonce)
+
         self._log("PAYPAL_ORDER_CAPTURED", "SETTLED", {
             "order_id": order_id,
-            "capture_status": capture_res.get("status", "COMPLETED")
+            "capture_status": capture_res.get("status", "COMPLETED"),
+            "mandate_spent_total": mandate.current_spent_usd,
+            "mandate_remaining": mandate.remaining_budget_usd
         })
 
         # 5. Emit Webhook to Audit Ledger
