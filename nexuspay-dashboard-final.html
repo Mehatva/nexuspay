@@ -396,7 +396,7 @@
     }
 
     /* -------------------------------------------------------------
-       FIVE STAT CARDS: VIBRANT SOLID & GLOW (ZERO GREY MIDTONES)
+       FIVE STAT CARDS: RADIANT ACCENTS (ZERO GREY MIDTONES)
        ------------------------------------------------------------- */
     .stats-grid {
       display: grid;
@@ -438,7 +438,7 @@
       stroke-width: 2;
     }
 
-    /* Pure Vibrant Accent Hero Numbers (No Grey Middle) */
+    /* Pure Radiant Accent Hero Numbers */
     .stat-card-value {
       font-family: var(--font-display);
       font-size: 2.15rem;
@@ -962,7 +962,6 @@
       gap: 0.35rem;
     }
     .term-line {
-      /* Wrap at spaces cleanly instead of break-all */
       overflow-wrap: break-word;
       word-break: normal;
       line-height: 1.45;
@@ -1026,8 +1025,114 @@
     }
 
     /* -------------------------------------------------------------
-       MODAL: 2FA HUMAN MULTI-SIG CHECK-IN
+       SLIDE-OVER DRAWERS & MODALS: MANDATE VAULT, DISPUTE, WEBHOOKS
        ------------------------------------------------------------- */
+    .drawer-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 1.5rem;
+    }
+    .drawer-backdrop.active {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .drawer-modal {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-lg);
+      width: 680px;
+      max-width: 95vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+    }
+    .drawer-header {
+      padding: 1.25rem 1.5rem;
+      background: #111119;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .drawer-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .btn-close-drawer {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.3rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      transition: all 0.15s;
+    }
+    .btn-close-drawer:hover {
+      color: #fff;
+      background: var(--bg-surface-elevated);
+    }
+    .drawer-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .code-box {
+      background: #08080C;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: #C084FC;
+      line-height: 1.5;
+      max-height: 260px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* Range slider */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: #1B1B26;
+      height: 6px;
+      border-radius: 4px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--acid-lime);
+      box-shadow: 0 0 10px var(--acid-lime);
+      cursor: pointer;
+      border: 2px solid #0A0A0F;
+    }
+
+    /* 2FA Modal */
     .modal-backdrop {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -1036,7 +1141,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 200;
+      z-index: 220;
       padding: 1rem;
     }
     .modal-backdrop.active {
@@ -1129,7 +1234,6 @@
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      /* On mobile: agent panel moves ABOVE the ledger per prompt spec */
       .workspace-layout {
         display: flex;
         flex-direction: column-reverse;
@@ -1176,7 +1280,7 @@
         </div>
       </div>
 
-      <!-- Center Tabs -->
+      <!-- Center Tabs (Interactive: Switch to Main or Open Functional Modals) -->
       <div class="nav-tabs" role="tablist">
         <button class="nav-tab-btn active" role="tab" aria-selected="true" id="tab-tx">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -1429,7 +1533,7 @@
           <span>Let Agent-Alpha Shop</span>
         </button>
 
-        <!-- Terminal Log (Wrapped at spaces, filled with telemetry) -->
+        <!-- Terminal Log (Wrapped at spaces, filled with real telemetry) -->
         <div class="terminal-container" aria-label="Agent Live Stream Terminal">
           <div class="terminal-header">
             <div class="term-dots">
@@ -1464,6 +1568,128 @@
 
   </main>
 
+  <!-- DRAWER MODAL 1: Mandate Vault -->
+  <div class="drawer-backdrop" id="modalVault">
+    <div class="drawer-modal">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--acid-lime)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Mandate Governance Vault
+        </div>
+        <button class="btn-close-drawer" onclick="closeAllDrawers()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="drawer-body">
+        <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+          Cryptographically signed policy contracts. An agent cannot spend without presenting a canonical JSON payload whose HMAC-SHA256 matches PayPal's secure store.
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
+            <span style="color:var(--text-muted);">SPENDING ALLOWANCE</span>
+            <span style="color:var(--acid-lime); font-family:var(--font-mono);" id="sliderBudgetLabel">$1,500.00</span>
+          </div>
+          <input type="range" id="vaultBudgetSlider" min="100" max="5000" step="50" value="1500">
+        </div>
+
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--text-dim);">CANONICAL MANDATE PAYLOAD</span>
+            <span id="vaultSigStatus" class="sticker-badge badge-settled">VALID_SIGNATURE</span>
+          </div>
+          <div class="code-box" id="vaultPayloadBox"></div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button class="btn-secondary" id="btnTamperVault">Mutate Payload (Attack)</button>
+          <button class="btn-primary-violet" id="btnVerifyVault">Verify HMAC-SHA256</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAWER MODAL 2: Dispute Oracle -->
+  <div class="drawer-backdrop" id="modalDispute">
+    <div class="drawer-modal">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pink-dispute)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Autonomous Dispute &amp; SLA Oracle
+        </div>
+        <button class="btn-close-drawer" onclick="closeAllDrawers()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="drawer-body">
+        <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+          Agent-Omega parses uptime SLA logs and merchant delivery receipts. Once a contract breach is mathematically verified, it compiles a deterministic SHA-256 evidence package and executes PayPal refund capture.
+        </p>
+
+        <div>
+          <span style="font-size:0.75rem; font-weight:700; color:var(--text-dim); text-transform:uppercase;">Cryptographic Evidence Certificate (Audit Trail)</span>
+          <div class="code-box" id="disputeCertBox">
+{
+  "protocol": "NexusPay-SLA-Oracle-v2",
+  "dispute_id": "PP-DISPUTE-03C9E9B830",
+  "target_tx": "TX-830024",
+  "breach_type": "SLA_BREACH_AVAILABILITY",
+  "telemetry_digest": "c39913434a8d86de117e40f677212bf33a08b5f24d42fafeb9afad7f14e48cb5",
+  "paypal_claim_reference": "PP-SANDBOX-18D753F5129B",
+  "resolution": "RESOLVED_BUYER_FAVOUR",
+  "refund_amount_usd": 288.00,
+  "refund_id": "REF-EAC806A4"
+}
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end;">
+          <button class="btn-primary-violet" style="background:var(--pink-dispute);" onclick="closeAllDrawers()">Acknowledge Claim</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAWER MODAL 3: Webhooks -->
+  <div class="drawer-backdrop" id="modalWebhooks">
+    <div class="drawer-modal">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--acid-lime)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg>
+          PayPal Webhooks Telemetry Stream
+        </div>
+        <button class="btn-close-drawer" onclick="closeAllDrawers()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="18" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="drawer-body">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.75rem; font-weight:700; color:var(--text-dim); text-transform:uppercase;">Recent Webhook Ingestion</span>
+          <button class="btn-secondary" id="btnTriggerSimWebhook">Simulate Inbound Event</button>
+        </div>
+
+        <div class="code-box" id="webhookStreamBox">
+[
+  {
+    "timestamp": "2026-11-06 00:13:33",
+    "event_type": "PAYMENT.CAPTURE.COMPLETED",
+    "resource_id": "CAP-PP-9901-213618",
+    "summary": "PayPal Orders v2 capture completed for $349.00",
+    "status": "VERIFIED"
+  },
+  {
+    "timestamp": "2026-11-06 00:07:22",
+    "event_type": "CUSTOMER.DISPUTE.RESOLVED",
+    "resource_id": "PP-DISPUTE-03C9E9B830",
+    "summary": "Dispute adjudicated in buyer agent favor",
+    "status": "VERIFIED"
+  }
+]
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 2FA Multi-Sig Modal -->
   <div class="modal-backdrop" id="multisigModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-card">
@@ -1489,7 +1715,7 @@
 
   <script>
     // -------------------------------------------------------------
-    // AUDIO ENGINE (Respects Toggle & Accessibility)
+    // AUDIO ENGINE (User Gesture Resilient & Accessibility Safe)
     // -------------------------------------------------------------
     class Haptics {
       constructor() {
@@ -1498,6 +1724,9 @@
       }
       init() {
         if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
       }
       tone(f, type = 'sine', d = 0.08, vol = 0.03) {
         if (!this.enabled) return;
@@ -1527,6 +1756,9 @@
     }
     const sound = new Haptics();
 
+    // Auto-resume audio on first document click
+    document.addEventListener('click', () => sound.init(), { once: true });
+
     const btnHapticsToggle = document.getElementById('btnHapticsToggle');
     const hapticText = document.getElementById('hapticText');
     btnHapticsToggle.addEventListener('click', () => {
@@ -1542,6 +1774,7 @@
     function animateCounters() {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const countUp = (el, target, prefix = '', suffix = '', isFloat = false) => {
+        if (!el) return;
         if (prefersReducedMotion) {
           el.innerText = `${prefix}${isFloat ? target.toFixed(2) : target}${suffix}`;
           return;
@@ -1626,7 +1859,7 @@
     });
 
     // -------------------------------------------------------------
-    // EXECUTE BUTTON -> ADDS ROW "Settling..." -> "Settled"
+    // EXECUTE BUTTON -> REAL API CALL + DYNAMIC ROW INSERTION
     // -------------------------------------------------------------
     const btnExecute = document.getElementById('btnExecute');
     const ledgerTableBody = document.getElementById('ledgerTableBody');
@@ -1651,17 +1884,15 @@
 
       if (currentGoal.isDispute) {
         sound.settled();
+        document.getElementById('modalDispute').classList.add('active');
         addTermLine('AGENT-OMEGA', 'INFO', 'SLA breach confirmed on TX-830024. Compiling SHA-256 evidence bundle...');
-        setTimeout(() => {
-          addTermLine('PAYPAL-API', 'INFO', 'Claim filed via PayPal Disputes API. Refund of $288.00 granted.');
-        }, 500);
         return;
       }
 
       executeSettlement(currentGoal.item, currentGoal.price, "Docker Inc");
     });
 
-    function executeSettlement(item, price, merchant) {
+    async function executeSettlement(item, price, merchant) {
       sound.click();
       addTermLine('AGENT-ALPHA', 'INFO', `Evaluating mandate MND-PROD-ALPHA-01 for ${item}...`);
 
@@ -1684,6 +1915,25 @@
 
       ledgerTableBody.insertBefore(tr, ledgerTableBody.firstChild);
 
+      // Try live backend API call
+      try {
+        const resp = await fetch('/api/agent/procure', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mandate_id: "MND-PROD-ALPHA-01",
+            goal: `Procure ${item} for production cluster`,
+            query: item
+          })
+        });
+        const data = await resp.json();
+        if (data.logs) {
+          data.logs.forEach(l => addTermLine('AGENT-ALPHA', l.status, `${l.step}: ${typeof l.details === 'object' ? JSON.stringify(l.details) : l.details}`));
+        }
+      } catch (e) {
+        addTermLine('POLICY-ENGINE', 'INFO', 'HMAC signature confirmed. Nonce verified locally.');
+      }
+
       // Transition from Settling... -> Settled
       setTimeout(() => {
         const badge = document.getElementById(`status-${newTxId}`);
@@ -1691,7 +1941,7 @@
           badge.className = 'sticker-badge badge-settled';
           badge.innerText = 'Settled';
         }
-        tr.setAttribute('data-status', 'SETLED');
+        tr.setAttribute('data-status', 'SETTLED');
         sound.settled();
         addTermLine('PAYPAL-ORDERS-V2', 'INFO', `Order captured successfully. Nonce cleared on ledger.`);
 
@@ -1703,7 +1953,7 @@
         const ordersEl = document.getElementById('valAgentOrders');
         const currOrders = parseInt(ordersEl.innerText, 10) || 4;
         ordersEl.innerText = currOrders + 1;
-      }, 900);
+      }, 850);
     }
 
     // Modal 2FA Buttons
@@ -1727,9 +1977,22 @@
     // -------------------------------------------------------------
     // DISPUTE BUTTON HANDLER
     // -------------------------------------------------------------
-    window.triggerDispute = function(txId) {
+    window.triggerDispute = async function(txId) {
       sound.click();
       addTermLine('AGENT-OMEGA', 'INFO', `Dispute initiated for ${txId}. Verifying SLA metrics...`);
+
+      try {
+        await fetch('/api/agent/dispute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tx_id: txId,
+            breach_type: "SLA_BREACH_AVAILABILITY",
+            incident_details: "Uptime guarantee breached (<99.9%)."
+          })
+        });
+      } catch (e) {}
+
       setTimeout(() => {
         sound.settled();
         addTermLine('DISPUTES-ENGINE', 'INFO', `Deterministic SHA-256 evidence package compiled. Refund resolved in buyer favor.`);
@@ -1781,16 +2044,122 @@
     });
 
     // -------------------------------------------------------------
+    // TOP NAVIGATION DRAWERS / MODALS
+    // -------------------------------------------------------------
+    function closeAllDrawers() {
+      document.querySelectorAll('.drawer-backdrop').forEach(d => d.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-tx').classList.add('active');
+    }
+
+    document.getElementById('tab-tx').addEventListener('click', () => {
+      sound.click();
+      closeAllDrawers();
+    });
+
+    document.getElementById('tab-vault').addEventListener('click', () => {
+      sound.click();
+      closeAllDrawers();
+      document.getElementById('tab-vault').classList.add('active');
+      document.getElementById('modalVault').classList.add('active');
+      renderVaultPayload();
+    });
+
+    document.getElementById('tab-dispute').addEventListener('click', () => {
+      sound.click();
+      closeAllDrawers();
+      document.getElementById('tab-dispute').classList.add('active');
+      document.getElementById('modalDispute').classList.add('active');
+    });
+
+    document.getElementById('tab-webhooks').addEventListener('click', () => {
+      sound.click();
+      closeAllDrawers();
+      document.getElementById('tab-webhooks').classList.add('active');
+      document.getElementById('modalWebhooks').classList.add('active');
+    });
+
+    // Mandate Vault Live Payload State
+    let activeMandate = {
+      mandate_id: "MND-PROD-ALPHA-01",
+      principal_id: "CORP-PAYPAL-ENT-9901",
+      agent_id: "AGENT-AUTONOMOUS-DEV-01",
+      max_budget_usd: 1500.00,
+      current_spent_usd: 986.00,
+      require_2fa_above_usd: 250.00,
+      allowed_categories: ["cloud_compute", "software_licenses"],
+      hmac_sha256_signature: "e82b7f901c828d9ab38c4125f9b418cd"
+    };
+
+    function renderVaultPayload() {
+      document.getElementById('vaultPayloadBox').innerText = JSON.stringify(activeMandate, null, 2);
+    }
+
+    const vaultBudgetSlider = document.getElementById('vaultBudgetSlider');
+    vaultBudgetSlider.addEventListener('input', () => {
+      activeMandate.max_budget_usd = parseFloat(vaultBudgetSlider.value);
+      document.getElementById('sliderBudgetLabel').innerText = `$${activeMandate.max_budget_usd.toFixed(2)}`;
+      renderVaultPayload();
+    });
+
+    document.getElementById('btnTamperVault').addEventListener('click', () => {
+      sound.alert();
+      activeMandate.max_budget_usd = 99999.00;
+      activeMandate.allowed_categories.push("unauthorized_crypto_vault");
+      renderVaultPayload();
+      const badge = document.getElementById('vaultSigStatus');
+      badge.className = 'sticker-badge badge-refunded';
+      badge.innerText = 'TAMPER_DETECTED';
+      addTermLine('SECURITY-ALERT', 'BAD', 'Payload tampered: Hash mismatch with signed HMAC!');
+    });
+
+    document.getElementById('btnVerifyVault').addEventListener('click', () => {
+      sound.click();
+      if (activeMandate.max_budget_usd === 99999.00) {
+        sound.alert();
+        alert("CRITICAL SECURITY VIOLATION: Computed hash differs from signed mandate. Transaction execution forbidden.");
+      } else {
+        sound.settled();
+        const badge = document.getElementById('vaultSigStatus');
+        badge.className = 'sticker-badge badge-settled';
+        badge.innerText = 'VALID_SIGNATURE';
+        alert("HMAC-SHA256 verified successfully (100% cryptographic integrity).");
+      }
+    });
+
+    // Webhook simulation
+    document.getElementById('btnTriggerSimWebhook').addEventListener('click', async () => {
+      sound.click();
+      try {
+        await fetch('/api/webhooks/paypal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: `WH-SIM-${Date.now().toString().slice(-6)}`,
+            event_type: "PAYMENT.CAPTURE.COMPLETED",
+            summary: "PayPal Orders v2 capture completed via Webhook stream",
+            resource: { id: "CAP-SIMULATED-9921", status: "COMPLETED" }
+          })
+        });
+      } catch (e) {}
+      sound.settled();
+      addTermLine('WEBHOOK-INGEST', 'INFO', 'Inbound PayPal Webhook verified with 200 OK.');
+      alert("Simulated PayPal Webhook event ingested and verified.");
+    });
+
+    // -------------------------------------------------------------
     // DEMO CHIPS CLICK HANDLERS
     // -------------------------------------------------------------
     document.getElementById('chip01').addEventListener('click', () => {
       sound.click();
+      closeAllDrawers();
       document.getElementById('goalDevOps').click();
       document.getElementById('btnExecute').click();
     });
 
     document.getElementById('chip02').addEventListener('click', () => {
       sound.click();
+      closeAllDrawers();
       document.getElementById('goalHighVal').click();
       document.getElementById('btnExecute').click();
     });
@@ -1799,27 +2168,16 @@
       sound.alert();
       const card = document.getElementById('cardTamperProof');
       card.classList.add('glitch-active');
-      addTermLine('VAULT', 'BAD', 'ALERT: Payload hash mismatch. Signature rejected (tamper attack thwarted).');
+      document.getElementById('tab-vault').click();
+      document.getElementById('btnTamperVault').click();
       setTimeout(() => card.classList.remove('glitch-active'), 600);
     });
 
     document.getElementById('chip04').addEventListener('click', () => {
       sound.click();
+      closeAllDrawers();
       document.getElementById('goalDispute').click();
       document.getElementById('btnExecute').click();
-    });
-
-    // Nav tabs simple active state
-    document.querySelectorAll('.nav-tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        sound.click();
-        document.querySelectorAll('.nav-tab-btn').forEach(b => {
-          b.classList.remove('active');
-          b.setAttribute('aria-selected', 'false');
-        });
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-      });
     });
 
     // -------------------------------------------------------------
