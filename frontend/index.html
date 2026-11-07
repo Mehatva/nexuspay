@@ -67,11 +67,15 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body {
+      min-height: 100vh;
+      width: 100%;
+    }
+
     body {
       background-color: var(--bg-base);
       color: var(--text-body);
       font-family: var(--font-sans);
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
@@ -110,6 +114,7 @@
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-subtle);
       padding: 0.75rem 2rem;
+      width: 100%;
     }
     .top-nav-inner {
       max-width: 1440px;
@@ -118,12 +123,14 @@
       align-items: center;
       justify-content: space-between;
       gap: 1.5rem;
+      width: 100%;
     }
     .brand-block {
       display: flex;
       align-items: center;
       gap: 0.85rem;
       text-decoration: none;
+      flex-shrink: 0;
     }
     .brand-mark {
       width: 32px;
@@ -189,6 +196,7 @@
       align-items: center;
       gap: 0.45rem;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
     .nav-tab-btn:hover {
       color: var(--text-hero);
@@ -211,6 +219,7 @@
       display: flex;
       align-items: center;
       gap: 0.85rem;
+      flex-shrink: 0;
     }
     .live-connection-badge {
       display: flex;
@@ -224,6 +233,7 @@
       color: var(--acid-lime);
       padding: 0.35rem 0.8rem;
       border-radius: var(--radius-pill);
+      white-space: nowrap;
     }
     .pulsing-live-dot {
       width: 6px;
@@ -251,6 +261,7 @@
       align-items: center;
       gap: 0.45rem;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
     .btn-haptics:hover {
       border-color: var(--border-medium);
@@ -264,7 +275,6 @@
       width: 13px;
       height: 13px;
     }
-    /* Hide on touch devices where haptic feedback is not desktop speaker */
     @media (hover: none) and (pointer: coarse) {
       .btn-haptics { display: none; }
     }
@@ -280,7 +290,7 @@
       height: 32px;
       display: flex;
       align-items: center;
-      position: relative;
+      width: 100%;
     }
     .ticker-track {
       display: inline-flex;
@@ -315,7 +325,7 @@
        ------------------------------------------------------------- */
     .demo-strip-wrap {
       max-width: 1440px;
-      margin: 1.2rem auto 0;
+      margin: 1.1rem auto 0;
       padding: 0 2rem;
       width: 100%;
     }
@@ -343,13 +353,14 @@
       font-family: var(--font-sans);
       font-size: 0.78rem;
       font-weight: 600;
-      padding: 0.45rem 0.95rem;
+      padding: 0.42rem 0.95rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
     }
     .demo-chip:hover {
       background: var(--bg-surface-elevated);
@@ -369,23 +380,23 @@
     }
 
     /* -------------------------------------------------------------
-       MAIN CONTENT CONTAINER
+       MAIN CONTENT CONTAINER (FILLS VIEWPORT HEIGHT)
        ------------------------------------------------------------- */
     main {
       flex: 1;
       max-width: 1440px;
-      margin: 1.25rem auto 3rem;
+      margin: 1rem auto 1.5rem;
       padding: 0 2rem;
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 1.4rem;
+      gap: 1.25rem;
       position: relative;
       z-index: 10;
     }
 
     /* -------------------------------------------------------------
-       FIVE STAT CARDS
+       FIVE STAT CARDS: VIBRANT TWO-STOP BRIGHT GRADIENTS (NO GREY)
        ------------------------------------------------------------- */
     .stats-grid {
       display: grid;
@@ -396,10 +407,10 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 1.2rem 1.25rem;
+      padding: 1.15rem 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.35rem;
       position: relative;
       overflow: hidden;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -411,7 +422,7 @@
     }
     .stat-card-title {
       font-family: var(--font-headline);
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -426,22 +437,24 @@
       stroke: var(--text-dim);
       stroke-width: 2;
     }
+
+    /* Pure 2-Stop Bright Gradient Hero Numbers */
     .stat-card-value {
       font-family: var(--font-display);
-      font-size: 2rem;
+      font-size: 2.1rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.1;
-      /* Hero gradient text: Acid lime to electric violet */
-      background: linear-gradient(135deg, var(--acid-lime) 10%, #A855F7 80%, var(--electric-violet) 100%);
+      background: linear-gradient(135deg, #C6FF3D 0%, #A855F7 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      color: #C6FF3D;
     }
     .stat-card-subtext {
       font-size: 0.72rem;
       color: var(--text-dim);
       line-height: 1.35;
-      margin-top: 0.15rem;
+      margin-top: 0.1rem;
     }
 
     /* Glitch effect on Tamper-Proof card */
@@ -460,13 +473,16 @@
     }
 
     /* -------------------------------------------------------------
-       WORKSPACE: LEDGER (LEFT) & AGENT PANEL (RIGHT)
+       WORKSPACE: BALANCED PROPORTIONS AT 1440px
+       Left Ledger (1.4fr) & Right Agent Panel (1fr ~400px)
        ------------------------------------------------------------- */
     .workspace-layout {
+      flex: 1;
       display: grid;
-      grid-template-columns: 1fr 430px;
-      gap: 1.4rem;
-      align-items: start;
+      grid-template-columns: minmax(0, 1.4fr) minmax(360px, 410px);
+      gap: 1.25rem;
+      align-items: stretch;
+      width: 100%;
     }
 
     /* CARD CONTAINERS */
@@ -474,11 +490,12 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 1.4rem;
+      padding: 1.35rem;
       display: flex;
       flex-direction: column;
-      gap: 1.15rem;
+      gap: 1.1rem;
       box-shadow: var(--shadow-card);
+      height: 100%;
     }
 
     /* Section Headings with italic accent */
@@ -491,7 +508,7 @@
     }
     .section-title {
       font-family: var(--font-display);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       color: var(--text-hero);
       letter-spacing: -0.02em;
@@ -512,14 +529,14 @@
     .search-box {
       position: relative;
       flex: 1;
-      min-width: 240px;
+      min-width: 220px;
     }
     .search-box input {
       width: 100%;
       background: var(--bg-input);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-pill);
-      padding: 0.5rem 1rem 0.5rem 2.2rem;
+      padding: 0.48rem 1rem 0.48rem 2.2rem;
       color: var(--text-hero);
       font-family: var(--font-sans);
       font-size: 0.8rem;
@@ -560,6 +577,7 @@
       border-radius: var(--radius-pill);
       cursor: pointer;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
     .filter-btn:hover {
       color: var(--text-hero);
@@ -571,24 +589,27 @@
     }
 
     /* -------------------------------------------------------------
-       CUSTOM LEDGER DATA TABLE (NO HORIZONTAL OVERFLOW TRUNCATION)
+       CUSTOM LEDGER DATA TABLE (NO TEXT CLIPPING)
        ------------------------------------------------------------- */
     .table-container {
+      flex: 1;
       width: 100%;
       overflow-x: auto;
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       background: #0D0D14;
+      display: flex;
+      flex-direction: column;
     }
     .ledger-table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
-      min-width: 760px;
+      min-width: 680px;
     }
     .ledger-table th {
       background: #111119;
-      padding: 0.8rem 1rem;
+      padding: 0.75rem 0.95rem;
       font-family: var(--font-headline);
       font-size: 0.72rem;
       font-weight: 700;
@@ -599,7 +620,7 @@
       white-space: nowrap;
     }
     .ledger-table td {
-      padding: 0.85rem 1rem;
+      padding: 0.85rem 0.95rem;
       border-bottom: 1px solid var(--border-subtle);
       font-size: 0.82rem;
       color: var(--text-body);
@@ -679,6 +700,7 @@
       align-items: center;
       gap: 0.35rem;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
     .btn-table-action:hover:not(:disabled) {
       border-color: var(--pink-dispute);
@@ -693,12 +715,13 @@
     }
 
     /* -------------------------------------------------------------
-       AGENT PANEL (RIGHT)
+       AGENT PANEL (RIGHT) - FULL VISIBILITY AT 1440px
        ------------------------------------------------------------- */
     .agent-panel {
       display: flex;
       flex-direction: column;
-      gap: 1.15rem;
+      gap: 1rem;
+      min-width: 0;
     }
     .agent-hero-card {
       display: flex;
@@ -706,15 +729,17 @@
       justify-content: space-between;
       padding-bottom: 0.2rem;
       border-bottom: 1px solid var(--border-subtle);
+      gap: 0.5rem;
     }
     .agent-id-lockup {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.7rem;
+      min-width: 0;
     }
     .agent-avatar {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: var(--radius-md);
       background: linear-gradient(135deg, var(--acid-lime) 0%, var(--electric-violet) 100%);
       color: #0A0A0F;
@@ -723,21 +748,26 @@
       justify-content: center;
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 1rem;
+      font-size: 0.95rem;
+      flex-shrink: 0;
     }
     .agent-name-wrap {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
     .agent-name {
       font-family: var(--font-display);
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
       color: #fff;
     }
     .agent-role {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .agent-status-tag {
       font-family: var(--font-mono);
@@ -746,30 +776,32 @@
       color: var(--acid-lime);
       background: var(--acid-lime-dim);
       border: 1px solid rgba(198, 255, 61, 0.3);
-      padding: 0.25rem 0.65rem;
+      padding: 0.22rem 0.6rem;
       border-radius: var(--radius-pill);
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
+      flex-shrink: 0;
     }
 
     /* Four Goal Cards */
     .goal-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.55rem;
+      gap: 0.5rem;
     }
     .goal-card {
       background: var(--bg-surface-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 0.7rem 0.8rem;
+      padding: 0.65rem 0.75rem;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.2rem;
       cursor: pointer;
       text-align: left;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      min-width: 0;
     }
     .goal-card:hover {
       background: var(--bg-surface-hover);
@@ -782,11 +814,11 @@
     }
     .goal-badge {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.64rem;
       font-weight: 700;
       color: var(--acid-lime);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
     .goal-badge.badge-rogue {
       color: var(--red-blocked);
@@ -796,10 +828,13 @@
     }
     .goal-title {
       font-family: var(--font-sans);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
       color: #fff;
-      line-height: 1.3;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Primary CTA with Shimmer */
@@ -807,27 +842,27 @@
       background: linear-gradient(135deg, var(--acid-lime) 0%, #A3E635 100%);
       color: #0A0A0F;
       font-family: var(--font-display);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 800;
       letter-spacing: -0.01em;
       border: none;
       border-radius: var(--radius-pill);
-      padding: 0.85rem 1.4rem;
+      padding: 0.8rem 1.2rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.55rem;
+      gap: 0.5rem;
       position: relative;
       overflow: hidden;
       box-shadow: 0 4px 20px var(--acid-lime-glow);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      width: 100%;
     }
     .btn-execute:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 28px rgba(198, 255, 61, 0.45);
     }
-    /* Shimmer effect */
     .btn-execute::after {
       content: '';
       position: absolute;
@@ -847,19 +882,20 @@
 
     /* Terminal Log Container */
     .terminal-container {
+      flex: 1;
       background: #08080C;
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 0.9rem;
+      padding: 0.85rem;
       font-family: var(--font-mono);
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       line-height: 1.5;
       min-height: 220px;
-      max-height: 260px;
+      max-height: 250px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.4rem;
     }
     .terminal-header {
       display: flex;
@@ -867,7 +903,7 @@
       justify-content: space-between;
       color: var(--text-dim);
       font-size: 0.68rem;
-      padding-bottom: 0.4rem;
+      padding-bottom: 0.35rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -877,8 +913,8 @@
       gap: 5px;
     }
     .term-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.15);
     }
@@ -1046,9 +1082,9 @@
     @media (max-width: 768px) {
       .top-nav { padding: 0.75rem 1rem; }
       .demo-strip-wrap { padding: 0 1rem; }
-      main { padding: 0 1rem; }
-      .top-nav-inner { flex-direction: column; align-items: stretch; gap: 0.8rem; }
-      .nav-tabs { overflow-x: auto; justify-content: flex-start; }
+      main { padding: 0 1rem; margin: 0.75rem auto 1.5rem; }
+      .top-nav-inner { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+      .nav-tabs { overflow-x: auto; width: 100%; justify-content: flex-start; }
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -1056,6 +1092,15 @@
       .workspace-layout {
         display: flex;
         flex-direction: column-reverse;
+        gap: 1rem;
+      }
+      .demo-strip {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 0.25rem;
+      }
+      .demo-chip {
+        flex-shrink: 0;
       }
     }
 
@@ -1168,14 +1213,14 @@
   <!-- Main Container -->
   <main>
 
-    <!-- Five Stat Cards -->
+    <!-- Five Stat Cards: Two-Stop Bright Gradients with Zero Murkiness -->
     <section class="stats-grid" aria-label="Protocol Summary Statistics">
       <div class="stat-card" id="cardSettledVolume">
         <div class="stat-card-title">
           <span>Settled Volume</span>
           <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
         </div>
-        <div class="stat-card-value" id="valSettledVolume" data-target="986">$0.00</div>
+        <div class="stat-card-value" id="valSettledVolume" data-target="986">$986.00</div>
         <div class="stat-card-subtext">Live, PayPal Orders v2 Captures</div>
       </div>
 
@@ -1184,7 +1229,7 @@
           <span>Agent Orders</span>
           <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <div class="stat-card-value" id="valAgentOrders" data-target="4">0</div>
+        <div class="stat-card-value" id="valAgentOrders" data-target="4">4</div>
         <div class="stat-card-subtext">Dispatched by Agent Alpha</div>
       </div>
 
@@ -1193,7 +1238,7 @@
           <span>Refunds Won</span>
           <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <div class="stat-card-value" id="valRefundsWon" data-target="288" style="background: linear-gradient(135deg, var(--pink-dispute) 20%, #A855F7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$0.00</div>
+        <div class="stat-card-value" id="valRefundsWon" data-target="288" style="background: linear-gradient(135deg, #FF4FD8 0%, #C084FC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #FF4FD8;">$288.00</div>
         <div class="stat-card-subtext">100% win rate on SLA breaches</div>
       </div>
 
@@ -1202,7 +1247,7 @@
           <span>Human Check-ins</span>
           <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg>
         </div>
-        <div class="stat-card-value" id="valHumanCheckins" data-target="1" style="background: linear-gradient(135deg, #D8B4FE 20%, var(--electric-violet) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+        <div class="stat-card-value" id="valHumanCheckins" data-target="1" style="background: linear-gradient(135deg, #D8B4FE 0%, var(--electric-violet) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #D8B4FE;">1</div>
         <div class="stat-card-subtext">Times a human had to say yes</div>
       </div>
 
@@ -1211,7 +1256,7 @@
           <span>Tamper-Proof</span>
           <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
-        <div class="stat-card-value" id="valTamperProof" data-target="100">0%</div>
+        <div class="stat-card-value" id="valTamperProof" data-target="100">100%</div>
         <div class="stat-card-subtext">Every order HMAC-SHA256 signed</div>
       </div>
     </section>
@@ -1253,11 +1298,11 @@
               </tr>
             </thead>
             <tbody id="ledgerTableBody">
-              <!-- Exact Screenshot Rows -->
+              <!-- Exact Screenshot Rows with TX-213618 Timestamp Restored -->
               <tr data-status="SETTLED" data-tx="TX-213618">
                 <td><span class="tx-id-badge">TX-213618</span></td>
-                <td class="timestamp-cell">2026-11-06 00:07:10</td>
-                <td><strong>AWS EC2 m6i.4xlarge</strong> 1-Yr Standard RI</td>
+                <td class="timestamp-cell">2026-11-06 00:13:33</td>
+                <td><span class="has-tooltip" data-tooltip="AWS EC2 m6i.4xlarge 1-Yr Standard RI">AWS EC2 m6i.4xlarge...</span></td>
                 <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
                 <td class="amount-cell">$349.00</td>
                 <td>Amazon Web Services</td>
@@ -1268,7 +1313,7 @@
               <tr data-status="SETTLED" data-tx="TX-984099">
                 <td><span class="tx-id-badge">TX-984099</span></td>
                 <td class="timestamp-cell">2026-11-03 08:15:44</td>
-                <td><strong>AWS EC2 m6i.4xlarge</strong> 1-Yr Standard RI</td>
+                <td><span class="has-tooltip" data-tooltip="AWS EC2 m6i.4xlarge 1-Yr Standard RI">AWS EC2 m6i.4xlarge...</span></td>
                 <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
                 <td class="amount-cell">$349.00</td>
                 <td>Amazon Web Services</td>
@@ -1279,7 +1324,7 @@
               <tr data-status="REFUNDED" data-tx="TX-830024">
                 <td><span class="tx-id-badge">TX-830024</span></td>
                 <td class="timestamp-cell">2026-11-06 00:07:10</td>
-                <td><strong>Docker Business</strong> Subscription</td>
+                <td><span class="has-tooltip" data-tooltip="Docker Business Subscription (Annual / 10 seats)">Docker Business...</span></td>
                 <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
                 <td class="amount-cell">$288.00</td>
                 <td>Docker Inc</td>
@@ -1294,7 +1339,7 @@
               <tr data-status="SETTLED" data-tx="TX-984102">
                 <td><span class="tx-id-badge">TX-984102</span></td>
                 <td class="timestamp-cell">2026-11-03 08:30:12</td>
-                <td><strong>Docker Business</strong> Subscription</td>
+                <td><span class="has-tooltip" data-tooltip="Docker Business Subscription (Annual / 10 seats)">Docker Business...</span></td>
                 <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
                 <td class="amount-cell">$288.00</td>
                 <td>Docker Inc</td>
@@ -1306,7 +1351,7 @@
         </div>
       </div>
 
-      <!-- RIGHT: Agent Panel -->
+      <!-- RIGHT: Agent-Alpha Panel (Fully visible at 1440px) -->
       <div class="surface-card agent-panel">
         <div class="agent-hero-card">
           <div class="agent-id-lockup">
@@ -1348,7 +1393,7 @@
           <span>Let Agent-Alpha Shop</span>
         </button>
 
-        <!-- Terminal Log -->
+        <!-- Terminal Log (Grows smoothly to fill container) -->
         <div class="terminal-container" aria-label="Agent Live Stream Terminal">
           <div class="terminal-header">
             <div class="term-dots">
@@ -1454,8 +1499,8 @@
           return;
         }
         let current = 0;
-        const duration = 1200;
-        const steps = 30;
+        const duration = 1000;
+        const steps = 28;
         const stepTime = duration / steps;
         const inc = target / steps;
         const timer = setInterval(() => {
@@ -1487,7 +1532,7 @@
       if (typedIndex < initialGreeting.length) {
         typedGreetingEl.textContent += initialGreeting.charAt(typedIndex);
         typedIndex++;
-        setTimeout(typeWriter, 22);
+        setTimeout(typeWriter, 20);
       }
     }
 
@@ -1582,7 +1627,7 @@
       tr.innerHTML = `
         <td><span class="tx-id-badge">${newTxId}</span></td>
         <td class="timestamp-cell">${timeStr}</td>
-        <td><strong>${item}</strong> Subscription</td>
+        <td><span class="has-tooltip" data-tooltip="${item} Subscription">${item}...</span></td>
         <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
         <td class="amount-cell">$${price.toFixed(2)}</td>
         <td>${merchant}</td>
@@ -1642,7 +1687,6 @@
         sound.settled();
         addTermLine('DISPUTES-ENGINE', 'INFO', `Deterministic SHA-256 evidence package compiled. Refund resolved in buyer favor.`);
 
-        // Find table row and update badge to Refunded
         const tr = document.querySelector(`tr[data-tx="${txId}"]`);
         if (tr) {
           tr.setAttribute('data-status', 'REFUNDED');
