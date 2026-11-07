@@ -3,73 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PayPal Enterprise — NexusPay Agentic Commerce & Arbitration Protocol</title>
-  
-  <!-- Typography: Inter for UI & JetBrains Mono for Financial Precision -->
+  <title>NexusPay — Next-Gen Autonomous Commerce & Arbitration Protocol</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- AG Grid Enterprise-Style Community Edition -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- AG Grid Community -->
   <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-quartz.css">
 
   <style>
     :root {
-      /* Official PayPal Enterprise Corporate Palette */
-      --pp-navy: #001c3f;
-      --pp-blue: #0070ba;
-      --pp-blue-hover: #005ea6;
-      --pp-light-blue: #009cde;
-      --pp-deep: #003087;
-      --pp-teal: #00b2a9;
+      /* Obsidian & Cyber Neo-FinTech Palette */
+      --bg-void: #05070d;
+      --bg-card: rgba(13, 19, 33, 0.75);
+      --bg-card-hover: rgba(20, 29, 51, 0.85);
+      --bg-glass: rgba(255, 255, 255, 0.03);
+      --bg-input: rgba(6, 10, 18, 0.8);
 
-      /* Neutral FinTech Canvas: Razor-sharp, high-contrast, zero-fuzz */
-      --canvas: #090d16;
-      --surface: #101726;
-      --surface-elevated: #162032;
-      --surface-hover: #1c283f;
-      --border-subtle: #1e293b;
-      --border-strong: #334155;
-      --border-focus: #0070ba;
+      /* Electric Vibrancies */
+      --cyan-electric: #00f2fe;
+      --blue-cyber: #4facfe;
+      --emerald-neon: #00f5a0;
+      --emerald-glow: rgba(0, 245, 160, 0.25);
+      --purple-neon: #b5179e;
+      --violet-electric: #7209b7;
+      --violet-glow: rgba(114, 9, 183, 0.25);
+      --amber-alert: #ffb703;
+      --amber-glow: rgba(255, 183, 3, 0.25);
+      --coral-danger: #ff4d6d;
+      --coral-glow: rgba(255, 77, 109, 0.25);
 
-      /* Semantic Status Identifiers */
-      --status-settled: #10b981;
-      --status-settled-bg: rgba(16, 185, 129, 0.1);
-      --status-settled-border: rgba(16, 185, 129, 0.25);
-      
-      --status-multisig: #f59e0b;
-      --status-multisig-bg: rgba(245, 158, 11, 0.1);
-      --status-multisig-border: rgba(245, 158, 11, 0.25);
+      /* Gradient Meshes */
+      --grad-primary: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      --grad-emerald: linear-gradient(135deg, #00f5a0 0%, #00d9f5 100%);
+      --grad-violet: linear-gradient(135deg, #b5179e 0%, #7209b7 100%);
+      --grad-amber: linear-gradient(135deg, #ffb703 0%, #fb8500 100%);
+      --grad-coral: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%);
+      --grad-card-border: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%);
 
-      --status-disputed: #8b5cf6;
-      --status-disputed-bg: rgba(139, 92, 246, 0.12);
-      --status-disputed-border: rgba(139, 92, 246, 0.3);
-
-      --status-blocked: #ef4444;
-      --status-blocked-bg: rgba(239, 68, 68, 0.1);
-      --status-blocked-border: rgba(239, 68, 68, 0.25);
-
-      /* Typography Tokens */
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      /* Text Tokens */
+      --text-hero: #ffffff;
+      --text-sub: #94a3b8;
       --text-dim: #64748b;
-      --text-mono: #cbd5e1;
+      --text-accent: #38bdf8;
 
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.24);
-      --shadow-drawer: -4px 0 24px rgba(0, 0, 0, 0.6);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-pill: 9999px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: var(--canvas);
-      color: var(--text-main);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-void);
+      background-image: 
+        radial-gradient(at 10% 15%, rgba(0, 242, 254, 0.08) 0px, transparent 45%),
+        radial-gradient(at 90% 10%, rgba(114, 9, 183, 0.1) 0px, transparent 50%),
+        radial-gradient(at 50% 80%, rgba(0, 245, 160, 0.06) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-hero);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -77,1036 +75,1063 @@
       overflow-x: hidden;
     }
 
-    /* Enterprise Navigation Header */
-    header {
-      background: #0d131f;
-      border-bottom: 1px solid var(--border-subtle);
-      height: 60px;
-      padding: 0 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* Ambient Animated Mesh Light */
+    .ambient-mesh {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* Floating Island Nav Header */
+    .nav-wrapper {
       position: sticky;
-      top: 0;
-      z-index: 90;
+      top: 14px;
+      z-index: 100;
+      padding: 0 1.5rem;
+      max-width: 1720px;
+      margin: 0 auto;
+      width: 100%;
     }
-
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    /* Authentic PayPal Monogram Vector */
-    .pp-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-    .pp-logo svg {
-      width: 24px;
-      height: 28px;
-      fill: none;
-    }
-    .brand-info {
-      display: flex;
-      flex-direction: column;
-    }
-    .brand-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .brand-badge {
-      font-size: 0.65rem;
-      font-weight: 600;
-      background: rgba(0, 112, 186, 0.18);
-      color: var(--pp-light-blue);
-      border: 1px solid rgba(0, 156, 222, 0.3);
-      padding: 0.15rem 0.45rem;
-      border-radius: 3px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .brand-sub {
-      font-size: 0.72rem;
-      color: var(--text-dim);
-    }
-
-    .header-center-nav {
-      display: flex;
-      align-items: center;
-      background: #090d16;
-      border: 1px solid var(--border-subtle);
-      padding: 3px;
-      border-radius: var(--radius-md);
-      gap: 2px;
-    }
-    .nav-tab-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 0.42rem 0.9rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.15s ease;
-    }
-    .nav-tab-btn:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.04);
-    }
-    .nav-tab-btn.active {
-      background: var(--surface-elevated);
-      color: #ffffff;
-      font-weight: 600;
+    header {
+      background: rgba(10, 15, 26, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-    }
-    .nav-tab-btn svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    .header-meta-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
-    .connection-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      font-size: 0.72rem;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--status-settled);
-      background: var(--status-settled-bg);
-      border: 1px solid var(--status-settled-border);
-      padding: 0.25rem 0.65rem;
-      border-radius: 20px;
-    }
-    .pulse-dot {
-      width: 6px;
-      height: 6px;
-      background-color: var(--status-settled);
-      border-radius: 50%;
-      box-shadow: 0 0 6px var(--status-settled);
-    }
-    .btn-meta {
-      background: transparent;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
-      padding: 0.35rem 0.65rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.75rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: all 0.15s;
-    }
-    .btn-meta:hover {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-main);
-      border-color: var(--border-strong);
-    }
-    .btn-meta.active {
-      color: var(--pp-light-blue);
-      border-color: var(--pp-blue);
-    }
-
-    /* Judge Interactive Walkthrough Bar */
-    .judge-tour-strip {
-      background: #0e1626;
-      border-bottom: 1px solid #1a253a;
-      padding: 0.65rem 1.5rem;
+      border-radius: var(--radius-lg);
+      padding: 0.75rem 1.4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
       gap: 1rem;
     }
-    .tour-lead {
+    .brand-logo-pill {
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #f1f5f9;
-      white-space: nowrap;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.25s ease;
     }
-    .tour-tag {
-      background: #0070ba;
-      color: #ffffff;
+    .brand-logo-pill:hover {
+      border-color: rgba(0, 242, 254, 0.4);
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.2);
+    }
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--grad-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 242, 254, 0.35);
+    }
+    .logo-icon svg {
+      width: 14px;
+      height: 14px;
+      fill: #000;
+    }
+    .brand-text-main {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 40%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand-tag-genz {
       font-size: 0.65rem;
       font-weight: 700;
-      padding: 0.15rem 0.45rem;
-      border-radius: 3px;
-      letter-spacing: 0.05em;
       text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, rgba(0, 242, 254, 0.15), rgba(114, 9, 183, 0.2));
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
     }
-    .tour-chips {
+
+    /* Floating Pill Nav Tabs */
+    .tab-dock {
+      display: flex;
+      background: rgba(5, 7, 13, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 4px;
+      border-radius: var(--radius-pill);
+      gap: 4px;
+    }
+    .dock-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.45rem 1.1rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dock-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .dock-btn.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* Right Meta Controls */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .live-orb-badge {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.35rem 0.8rem;
+      border-radius: var(--radius-pill);
+      background: rgba(0, 245, 160, 0.08);
+      border: 1px solid rgba(0, 245, 160, 0.25);
+      color: var(--emerald-neon);
     }
-    .tour-chip {
-      background: #131c2e;
-      border: 1px solid #23314d;
-      color: #94a3b8;
-      padding: 0.35rem 0.75rem;
-      border-radius: var(--radius-sm);
+    .orb-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald-neon);
+      box-shadow: 0 0 10px var(--emerald-neon);
+      animation: pulseOrb 2s infinite ease-in-out;
+    }
+    @keyframes pulseOrb {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+    .btn-haptic {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-sub);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-pill);
       font-size: 0.75rem;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      transition: all 0.15s ease;
-      white-space: nowrap;
+      transition: all 0.2s;
     }
-    .tour-chip:hover {
-      background: #1c2942;
-      color: #ffffff;
-      border-color: #0070ba;
-    }
-    .chip-step-num {
+    .btn-haptic:hover {
       background: rgba(255, 255, 255, 0.08);
-      color: #cbd5e1;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      font-weight: 600;
-      padding: 0.1rem 0.35rem;
-      border-radius: 2px;
+      color: #fff;
+    }
+    .btn-haptic.active {
+      border-color: rgba(0, 242, 254, 0.4);
+      color: var(--cyan-electric);
     }
 
-    /* Main Content Area */
+    /* Gen-Z Hero Action Tour */
+    .tour-hero-strip {
+      padding: 1.2rem 1.5rem 0;
+      max-width: 1720px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .tour-title-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .spark-icon {
+      color: var(--cyan-electric);
+      animation: spinSlow 8s linear infinite;
+    }
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .tour-action-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .tour-card-btn {
+      background: rgba(13, 20, 36, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.5rem 0.95rem;
+      border-radius: var(--radius-md);
+      color: #e2e8f0;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .tour-card-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      transition: left 0.4s ease;
+    }
+    .tour-card-btn:hover::before {
+      left: 100%;
+    }
+    .tour-card-btn:hover {
+      background: rgba(20, 31, 56, 0.8);
+      border-color: rgba(0, 242, 254, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    .tour-badge-index {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--cyan-electric);
+    }
+
+    /* Main Bento Grid Layout */
     main {
+      position: relative;
+      z-index: 10;
       flex: 1;
-      padding: 1.5rem;
+      padding: 1.2rem 1.5rem 2rem;
       max-width: 1720px;
       margin: 0 auto;
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.4rem;
     }
 
-    /* Enterprise Financial Metrics Row */
-    .metrics-bar {
+    /* Bento 1: Ultra-Aesthetic Stats Bar */
+    .bento-stats {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 1rem;
     }
-    .metric-cell {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.2rem;
+    .stat-card-glass {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.35rem;
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      box-shadow: var(--shadow-card);
+      gap: 0.4rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
     }
-    .metric-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-dim);
+    .stat-card-glass:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+    .stat-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .metric-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.45rem;
+    .stat-title {
+      font-size: 0.74rem;
       font-weight: 700;
-      color: #ffffff;
-      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
     }
-    .metric-sub {
-      font-size: 0.72rem;
+    .stat-spark {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--cyan-electric);
+    }
+    .stat-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+    }
+    .stat-sub {
+      font-size: 0.74rem;
       color: var(--text-dim);
       display: flex;
       align-items: center;
       gap: 0.35rem;
     }
 
-    /* Tab Panes */
-    .view-pane {
+    /* Tab View Panes */
+    .view-deck {
       display: none;
     }
-    .view-pane.active {
+    .view-deck.active {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.4rem;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Action Control Toolbar */
-    .toolbar-surface {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 0.9rem 1.2rem;
+    /* Bento Split: Main Ledger + Real-Time Cyber Command Feed */
+    .bento-split-main {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 1.4rem;
+      align-items: start;
+    }
+
+    /* Left: Ledger & Controls */
+    .glass-panel {
+      background: var(--bg-card);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    }
+
+    .panel-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
     }
-    .toolbar-left {
+    .panel-headline {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      flex: 1;
+      gap: 0.65rem;
     }
-    .search-input-wrap {
-      position: relative;
-      width: 320px;
-    }
-    .search-input-wrap input {
-      width: 100%;
-      background: #090d16;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 0.45rem 0.75rem 0.45rem 2rem;
-      font-size: 0.8rem;
+    .panel-headline h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
       color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .badge-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--radius-pill);
+      background: rgba(0, 242, 254, 0.12);
+      color: var(--cyan-electric);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+    }
+
+    .filter-dock {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .search-capsule {
+      position: relative;
+      min-width: 260px;
+    }
+    .search-capsule input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-pill);
+      padding: 0.45rem 0.85rem 0.45rem 2.2rem;
+      color: #fff;
+      font-size: 0.8rem;
       outline: none;
-      transition: border 0.15s;
+      transition: all 0.2s;
     }
-    .search-input-wrap input:focus {
-      border-color: var(--pp-blue);
+    .search-capsule input:focus {
+      border-color: var(--cyan-electric);
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.2);
     }
-    .search-icon {
+    .search-lens {
       position: absolute;
-      left: 0.65rem;
+      left: 0.75rem;
       top: 50%;
       transform: translateY(-50%);
       width: 13px;
       height: 13px;
       color: var(--text-dim);
     }
-    .filter-pills {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .filter-btn {
-      background: transparent;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      padding: 0.35rem 0.65rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-    }
-    .filter-btn.active {
-      background: var(--surface-elevated);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.15);
+    .filter-chip {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-sub);
+      font-size: 0.76rem;
       font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-chip:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: #fff;
+    }
+    .filter-chip.active {
+      background: var(--grad-primary);
+      color: #000;
+      font-weight: 700;
+      border-color: transparent;
+      box-shadow: 0 2px 10px rgba(0, 242, 254, 0.35);
     }
 
-    .toolbar-right {
+    /* AG Grid Gen-Z Frame */
+    #ledgerGrid {
+      height: 520px;
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Right: Cyber Command Agent Live Deck */
+    .agent-deck {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .agent-pod-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .pod-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pod-identity {
       display: flex;
       align-items: center;
       gap: 0.65rem;
     }
-    .btn-action-primary {
-      background: var(--pp-blue);
-      border: none;
-      color: #ffffff;
-      font-weight: 600;
-      font-size: 0.82rem;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
+    .pod-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
-      gap: 0.45rem;
-      box-shadow: 0 1px 3px rgba(0, 112, 186, 0.35);
-      transition: background 0.15s;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
     }
-    .btn-action-primary:hover {
-      background: var(--pp-blue-hover);
+    .pod-alpha {
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      color: #000;
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.3);
     }
-    .btn-action-secondary {
-      background: #1a2333;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-main);
-      font-weight: 500;
-      font-size: 0.8rem;
-      padding: 0.5rem 0.85rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.15s;
+    .pod-omega {
+      background: linear-gradient(135deg, #b5179e, #7209b7);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(181, 23, 158, 0.3);
     }
-    .btn-action-secondary:hover {
-      background: #233045;
-      border-color: var(--border-strong);
-    }
-
-    /* Ledger Card & AG Grid Frame */
-    .ledger-frame {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 1.1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      box-shadow: var(--shadow-card);
-    }
-    .frame-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .frame-title {
+    .pod-meta-name {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.95rem;
       font-weight: 700;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      color: #fff;
     }
-    .frame-meta {
-      font-size: 0.75rem;
+    .pod-meta-role {
+      font-size: 0.72rem;
       color: var(--text-dim);
     }
-    #ledgerGrid {
-      height: 560px;
-      width: 100%;
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-    }
 
-    /* Slide-Over Drawer: Enterprise Agent Execution Inspector */
-    .drawer-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(4, 7, 13, 0.65);
-      backdrop-filter: blur(4px);
-      display: none;
-      z-index: 150;
+    /* Preset Mission Trigger Buttons */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
     }
-    .drawer-overlay.active {
-      display: block;
-    }
-    .agent-drawer {
-      position: fixed;
-      top: 0;
-      right: -680px;
-      width: 650px;
-      height: 100vh;
-      background: #0f1624;
-      border-left: 1px solid var(--border-strong);
-      box-shadow: var(--shadow-drawer);
-      display: flex;
-      flex-direction: column;
-      z-index: 160;
-      transition: right 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .agent-drawer.open {
-      right: 0;
-    }
-    .drawer-header {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #0b101c;
-    }
-    .drawer-title-group {
+    .mission-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.6rem 0.75rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-sub);
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
       gap: 0.2rem;
     }
-    .drawer-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .mission-btn:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: #fff;
+      border-color: rgba(0, 242, 254, 0.3);
     }
-    .drawer-sub {
-      font-size: 0.75rem;
-      color: var(--text-dim);
+    .mission-tag {
+      font-size: 0.65rem;
+      color: var(--cyan-electric);
       font-family: 'JetBrains Mono', monospace;
-    }
-    .btn-close-drawer {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 0.4rem;
-      display: flex;
-      align-items: center;
-      border-radius: var(--radius-sm);
-    }
-    .btn-close-drawer:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .drawer-content {
-      padding: 1.5rem;
-      overflow-y: auto;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
     }
 
-    /* Structured Verification Timeline */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      top: 12px;
-      bottom: 12px;
-      left: 15px;
-      width: 2px;
-      background: var(--border-subtle);
-      z-index: 1;
-    }
-    .timeline-node {
-      display: flex;
-      gap: 1rem;
-      position: relative;
-      z-index: 2;
-      padding-bottom: 1.4rem;
-    }
-    .timeline-node:last-child {
-      padding-bottom: 0;
-    }
-    .node-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #141c2c;
-      border: 1px solid var(--border-strong);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .node-icon.success {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: var(--status-settled);
-      color: var(--status-settled);
-    }
-    .node-icon.multisig {
-      background: rgba(245, 158, 11, 0.15);
-      border-color: var(--status-multisig);
-      color: var(--status-multisig);
-    }
-    .node-icon.blocked {
-      background: rgba(239, 68, 68, 0.15);
-      border-color: var(--status-blocked);
-      color: var(--status-blocked);
-    }
-    .node-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-    .node-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .node-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #ffffff;
-    }
-    .node-time {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-dim);
-    }
-    .node-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-    .payload-card {
-      background: #090e17;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem;
+    /* Live Cyber Thought Stream */
+    .stream-box {
+      background: #04060b;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      color: var(--pp-light-blue);
-      white-space: pre-wrap;
-      word-break: break-all;
-      max-height: 160px;
+      max-height: 290px;
+      min-height: 220px;
       overflow-y: auto;
-    }
-
-    /* Modal Dialogs */
-    .modal-backdrop {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(4, 7, 13, 0.85);
-      backdrop-filter: blur(6px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-    }
-    .modal-window {
-      background: #111827;
-      border: 1px solid rgba(245, 158, 11, 0.35);
-      border-radius: var(--radius-lg);
-      width: 520px;
-      max-width: 90vw;
-      padding: 1.8rem;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      gap: 0.5rem;
     }
-    .modal-header-warning {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      color: var(--status-multisig);
-      font-size: 1.1rem;
-      font-weight: 700;
+    .stream-line {
+      line-height: 1.45;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
     }
-    .modal-body-content {
-      font-size: 0.85rem;
-      color: #cbd5e1;
-      line-height: 1.5;
-    }
-    .multisig-spec-box {
-      background: #090d16;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 0.9rem;
-      font-size: 0.8rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    .modal-actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 0.75rem;
-    }
+    .stream-time { color: var(--text-dim); }
+    .stream-agent-alpha { color: var(--cyan-electric); font-weight: 700; }
+    .stream-agent-omega { color: #f472b6; font-weight: 700; }
+    .stream-success { color: var(--emerald-neon); font-weight: 600; }
+    .stream-blocked { color: var(--coral-danger); font-weight: 600; }
+    .stream-multisig { color: var(--amber-alert); font-weight: 600; }
 
-    /* Mandate Governance Tab */
-    .governance-grid {
+    /* Bento View 2: Mandate Vault */
+    .bento-mandate-deck {
       display: grid;
-      grid-template-columns: 460px 1fr;
-      gap: 1.25rem;
+      grid-template-columns: 480px 1fr;
+      gap: 1.4rem;
     }
-    .governance-card {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 1.35rem;
+    .slider-track-wrap {
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
-      box-shadow: var(--shadow-card);
+      gap: 0.5rem;
     }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-    }
-    .form-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-dim);
+    .slider-label-row {
       display: flex;
       justify-content: space-between;
-    }
-    .form-val-display {
-      font-family: 'JetBrains Mono', monospace;
-      color: #ffffff;
+      font-size: 0.78rem;
       font-weight: 700;
+      color: var(--text-sub);
+    }
+    .slider-val-highlight {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
     }
     input[type=range] {
       -webkit-appearance: none;
       width: 100%;
-      background: #1e293b;
-      height: 5px;
+      background: #141b2d;
+      height: 6px;
       border-radius: 4px;
       outline: none;
     }
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      background: var(--pp-blue);
+      background: var(--cyan-electric);
+      box-shadow: 0 0 10px var(--cyan-electric);
       cursor: pointer;
-      border: 2px solid #ffffff;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+      border: 2px solid #fff;
     }
-    .code-viewer {
-      background: #090d16;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      padding: 0.9rem;
-      color: #93c5fd;
-      min-height: 280px;
-      width: 100%;
-      resize: vertical;
-      outline: none;
-    }
-    .sig-status-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.35rem 0.75rem;
-      border-radius: var(--radius-sm);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    /* Dispute Arbitration Oracle Tab */
-    .dispute-grid {
-      display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 1.25rem;
-    }
-    .select-input, .text-input {
-      background: #090d16;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      color: #ffffff;
-      padding: 0.55rem 0.75rem;
-      font-size: 0.8rem;
-      outline: none;
-      width: 100%;
-    }
-    .select-input:focus, .text-input:focus {
-      border-color: var(--pp-blue);
-    }
-    .evidence-cert-box {
-      background: #090d16;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
+    .json-canvas {
+      background: #04060b;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
       padding: 1rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: var(--pp-teal);
-      max-height: 480px;
+      color: #7dd3fc;
+      width: 100%;
+      min-height: 320px;
+      resize: vertical;
+      outline: none;
+    }
+
+    /* Bento View 3: Dispute Oracle */
+    .bento-dispute-deck {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 1.4rem;
+    }
+    .evidence-screen {
+      background: #04060b;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      color: var(--emerald-neon);
+      max-height: 440px;
       overflow-y: auto;
       white-space: pre-wrap;
       word-break: break-all;
     }
 
+    /* Buttons & Glow CTAs */
+    .btn-gradient-cyan {
+      background: var(--grad-primary);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-gradient-cyan:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 26px rgba(0, 242, 254, 0.5);
+    }
+    .btn-gradient-violet {
+      background: var(--grad-violet);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 20px rgba(181, 23, 158, 0.35);
+      transition: all 0.2s;
+    }
+    .btn-gradient-violet:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 26px rgba(181, 23, 158, 0.5);
+    }
+    .btn-subtle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.82rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-subtle:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Modal Frosted Overlay */
+    .frost-modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(2, 4, 8, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+    .frost-modal-box {
+      background: rgba(13, 20, 36, 0.95);
+      border: 1px solid rgba(255, 183, 3, 0.4);
+      border-radius: var(--radius-lg);
+      width: 540px;
+      max-width: 92vw;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), 0 0 32px rgba(255, 183, 3, 0.15);
+    }
+
     /* Data Tables */
-    .ent-table {
+    .cyber-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.8rem;
     }
-    .ent-table th {
+    .cyber-table th {
       text-align: left;
-      padding: 0.65rem 0.85rem;
-      background: #0d1421;
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 0.95rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       color: var(--text-dim);
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
     }
-    .ent-table td {
-      padding: 0.75rem 0.85rem;
-      border-bottom: 1px solid var(--border-subtle);
-      color: var(--text-main);
+    .cyber-table td {
+      padding: 0.85rem 0.95rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-hero);
     }
-    .ent-table tr:hover td {
+    .cyber-table tr:hover td {
       background: rgba(255, 255, 255, 0.02);
     }
 
-    /* Status Pills */
-    .pill {
+    /* Status Glow Pills */
+    .glow-pill {
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      font-weight: 600;
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-pill);
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      font-family: 'JetBrains Mono', monospace;
     }
-    .pill-settled {
-      background: var(--status-settled-bg);
-      color: var(--status-settled);
-      border: 1px solid var(--status-settled-border);
+    .glow-settled {
+      background: rgba(0, 245, 160, 0.12);
+      color: var(--emerald-neon);
+      border: 1px solid rgba(0, 245, 160, 0.3);
+      box-shadow: 0 0 10px rgba(0, 245, 160, 0.15);
     }
-    .pill-refunded {
-      background: var(--status-disputed-bg);
-      color: var(--status-disputed);
-      border: 1px solid var(--status-disputed-border);
+    .glow-refunded {
+      background: rgba(181, 23, 158, 0.15);
+      color: #f472b6;
+      border: 1px solid rgba(181, 23, 158, 0.35);
+      box-shadow: 0 0 10px rgba(181, 23, 158, 0.2);
     }
-    .pill-multisig {
-      background: var(--status-multisig-bg);
-      color: var(--status-multisig);
-      border: 1px solid var(--status-multisig-border);
+    .glow-multisig {
+      background: rgba(255, 183, 3, 0.12);
+      color: var(--amber-alert);
+      border: 1px solid rgba(255, 183, 3, 0.3);
+      box-shadow: 0 0 10px rgba(255, 183, 3, 0.15);
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Enterprise Header -->
-  <header>
-    <div class="brand-group">
-      <a href="#" class="pp-logo">
-        <svg viewBox="0 0 32 38">
-          <path d="M7.8 0h12.5C26 0 29.5 3.5 28.5 9c-.9 4.8-4.5 7.8-9.8 7.8h-4.8l-2.6 13.5H4.2L9.5 0z" fill="#003087"/>
-          <path d="M11.2 8h12.5C29.4 8 32.9 11.5 31.9 17c-.9 4.8-4.5 7.8-9.8 7.8h-4.8l-2.6 13.5H7.6l5.3-30.3z" fill="#0070BA" fill-opacity="0.85"/>
-        </svg>
-      </a>
-      <div class="brand-info">
-        <div class="brand-title">
-          PayPal Enterprise
-          <span class="brand-badge">Protocol Engine</span>
+  <!-- Floating Island Nav Header -->
+  <div class="nav-wrapper">
+    <header>
+      <div class="brand-cluster">
+        <a href="#" class="brand-logo-pill">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <span class="brand-text-main">NexusPay</span>
+        </a>
+        <span class="brand-tag-genz">Autonomous Protocol</span>
+      </div>
+
+      <!-- Dock Navigation Tabs -->
+      <nav class="tab-dock">
+        <button class="dock-btn active" data-tab="deck-ledger">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Transactions
+        </button>
+        <button class="dock-btn" data-tab="deck-vault">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Mandate Vault
+        </button>
+        <button class="dock-btn" data-tab="deck-disputes" id="navDockDisputes">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Dispute Oracle
+        </button>
+        <button class="dock-btn" data-tab="deck-webhooks">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg>
+          Webhooks
+        </button>
+      </nav>
+
+      <!-- Right Meta Actions -->
+      <div class="nav-actions">
+        <div class="live-orb-badge">
+          <div class="orb-pulse"></div>
+          <span id="paypalEnvBadge">PAYPAL_SANDBOX_CONNECTED</span>
         </div>
-        <div class="brand-sub">NexusPay — Cryptographic Mandate & Arbitration Layer</div>
+        <button class="btn-haptic" id="btnAudioToggle">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          Haptics: <span id="audioStatus">ON</span>
+        </button>
       </div>
-    </div>
+    </header>
+  </div>
 
-    <!-- Center Segmented Tabs -->
-    <div class="header-center-nav">
-      <button class="nav-tab-btn active" data-tab="pane-ledger">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/></svg>
-        Transactions & Ledgers
-      </button>
-      <button class="nav-tab-btn" data-tab="pane-mandates">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Mandate Vault
-      </button>
-      <button class="nav-tab-btn" data-tab="pane-disputes" id="navTabDisputes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Dispute Oracle
-      </button>
-      <button class="nav-tab-btn" data-tab="pane-webhooks">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Webhook Telemetry
-      </button>
-      <button class="nav-tab-btn" data-tab="pane-docs">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Specs & Security
-      </button>
+  <!-- Gen-Z Hero Quick Demonstration Bar -->
+  <div class="tour-hero-strip">
+    <div class="tour-title-pill">
+      <svg class="spark-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      1-Click Agent Security Demos:
     </div>
-
-    <!-- Right Controls -->
-    <div class="header-meta-actions">
-      <div class="connection-badge">
-        <div class="pulse-dot"></div>
-        <span id="paypalEnvBadge">PAYPAL_SANDBOX_ACTIVE (32ms)</span>
-      </div>
-      <button class="btn-meta" id="btnAudioToggle">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-        Haptics: <span id="audioStatus">ON</span>
+    <div class="tour-action-row">
+      <button class="tour-card-btn" id="tourProcure">
+        <span class="tour-badge-index">01</span>
+        <span>Zero-Touch Auto-Procure (Docker $288)</span>
       </button>
-    </div>
-  </header>
-
-  <!-- Judge Interactive Demonstration Bar -->
-  <div class="judge-tour-strip">
-    <div class="tour-lead">
-      <span class="tour-tag">Judge Live Tour</span>
-      1-Click Security Demonstrations:
-    </div>
-    <div class="tour-chips">
-      <button class="tour-chip" id="tourProcure">
-        <span class="chip-step-num">01</span>
-        <span>Zero-Touch Procurement (Docker Enterprise $288)</span>
-      </button>
-      <button class="tour-chip" id="tourMultisig">
-        <span class="chip-step-num">02</span>
+      <button class="tour-card-btn" id="tourMultisig">
+        <span class="tour-badge-index">02</span>
         <span>Multi-Sig 2FA Intercept (AWS EC2 >$250)</span>
       </button>
-      <button class="tour-chip" id="tourTamper">
-        <span class="chip-step-num">03</span>
+      <button class="tour-card-btn" id="tourTamper">
+        <span class="tour-badge-index">03</span>
         <span>Simulate Tamper Attack (Mandate Vault)</span>
       </button>
-      <button class="tour-chip" id="tourDispute">
-        <span class="chip-step-num">04</span>
+      <button class="tour-card-btn" id="tourDispute">
+        <span class="tour-badge-index">04</span>
         <span>Autonomous Dispute & Refund (SLA Oracle)</span>
       </button>
     </div>
   </div>
 
-  <!-- Main Container -->
   <main>
 
-    <!-- Top Financial Metrics -->
-    <div class="metrics-bar">
-      <div class="metric-cell">
-        <div class="metric-label">Settled Order Volume</div>
-        <div class="metric-val" id="statVolume">$0.00</div>
-        <div class="metric-sub">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--status-settled)" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
-          PayPal Orders v2 Capture
+    <!-- Bento 1: Financial Metrics Grid -->
+    <div class="bento-stats">
+      <div class="stat-card-glass">
+        <div class="stat-top">
+          <span class="stat-title">Settled Volume</span>
+          <div class="stat-spark">⚡</div>
+        </div>
+        <div class="stat-val" id="statVolume">$0.00</div>
+        <div class="stat-sub">
+          <span style="color: var(--emerald-neon);">● Live</span> PayPal Orders v2 Captures
         </div>
       </div>
-      <div class="metric-cell">
-        <div class="metric-label">Autonomous Orders</div>
-        <div class="metric-val" id="statOrders">0</div>
-        <div class="metric-sub">Processed through Agent-Alpha</div>
+      <div class="stat-card-glass">
+        <div class="stat-top">
+          <span class="stat-title">Autonomous Orders</span>
+          <div class="stat-spark">🤖</div>
+        </div>
+        <div class="stat-val" id="statOrders">0</div>
+        <div class="stat-sub">Dispatched by Agent Alpha</div>
       </div>
-      <div class="metric-cell">
-        <div class="metric-label">Arbitrated Refunds</div>
-        <div class="metric-val" id="statRefunds" style="color: var(--status-disputed);">$0.00</div>
-        <div class="metric-sub">100% SLA Breach Win Rate</div>
+      <div class="stat-card-glass">
+        <div class="stat-top">
+          <span class="stat-title">Disputed Refunds</span>
+          <div class="stat-spark">⚖️</div>
+        </div>
+        <div class="stat-val" id="statRefunds" style="color: #f472b6;">$0.00</div>
+        <div class="stat-sub">100% SLA Breach Win Rate</div>
       </div>
-      <div class="metric-cell">
-        <div class="metric-label">Multi-Sig Guardrails</div>
-        <div class="metric-val" id="statMultisig" style="color: var(--status-multisig);">1</div>
-        <div class="metric-sub">Human-in-the-Loop Intercepts</div>
+      <div class="stat-card-glass">
+        <div class="stat-top">
+          <span class="stat-title">Multi-Sig Guardrails</span>
+          <div class="stat-spark">🛡️</div>
+        </div>
+        <div class="stat-val" id="statMultisig" style="color: var(--amber-alert);">1</div>
+        <div class="stat-sub">Human-in-the-Loop Intercepts</div>
       </div>
-      <div class="metric-cell">
-        <div class="metric-label">Security Compliance</div>
-        <div class="metric-val" style="color: var(--status-settled);">100%</div>
-        <div class="metric-sub">HMAC-SHA256 Mandate Integrity</div>
+      <div class="stat-card-glass">
+        <div class="stat-top">
+          <span class="stat-title">Integrity Score</span>
+          <div class="stat-spark">🔒</div>
+        </div>
+        <div class="stat-val" style="color: var(--emerald-neon);">100%</div>
+        <div class="stat-sub">HMAC-SHA256 Nonce Cryptography</div>
       </div>
     </div>
 
-    <!-- VIEW PANE 1: Transactions & Ledgers -->
-    <div class="view-pane active" id="pane-ledger">
-      
-      <!-- Action Control Toolbar -->
-      <div class="toolbar-surface">
-        <div class="toolbar-left">
-          <div class="search-input-wrap">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="gridFilterInput" placeholder="Filter by transaction, vendor, or order ID...">
+    <!-- VIEW DECK 1: Transactions & Cyber Agent Pods -->
+    <div class="view-deck active" id="deck-ledger">
+      <div class="bento-split-main">
+        
+        <!-- Left: Transactions Table Frame -->
+        <div class="glass-panel">
+          <div class="panel-header-row">
+            <div class="panel-headline">
+              <h2>Autonomous Settlement Ledger</h2>
+              <span class="badge-counter" id="txCountBadge">Live Feed</span>
+            </div>
+
+            <div class="filter-dock">
+              <div class="search-capsule">
+                <svg class="search-lens" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="gridFilterInput" placeholder="Search orders, vendors, IDs...">
+              </div>
+              <button class="filter-chip active" data-filter="ALL">All</button>
+              <button class="filter-chip" data-filter="SETTLED">Settled</button>
+              <button class="filter-chip" data-filter="REFUNDED">Refunded</button>
+            </div>
           </div>
-          <div class="filter-pills">
-            <button class="filter-btn active" data-filter="ALL">All Records</button>
-            <button class="filter-btn" data-filter="SETTLED">Settled</button>
-            <button class="filter-btn" data-filter="REFUNDED">Disputed / Refunded</button>
+
+          <div id="ledgerGrid" class="ag-theme-quartz-dark"></div>
+        </div>
+
+        <!-- Right: Cyber Agent Live Command Deck -->
+        <div class="agent-deck">
+          <div class="agent-pod-card">
+            <div class="pod-header">
+              <div class="pod-identity">
+                <div class="pod-avatar pod-alpha">α</div>
+                <div>
+                  <div class="pod-meta-name">Agent-Alpha</div>
+                  <div class="pod-meta-role">Autonomous Procurement Engine</div>
+                </div>
+              </div>
+              <span class="glow-pill glow-settled">ONLINE</span>
+            </div>
+
+            <!-- Fast Scenario Missions -->
+            <div class="mission-grid">
+              <button class="mission-btn" id="btnMissionDevOps">
+                <span class="mission-tag">DEV-OPS</span>
+                <span>Docker Business ($288)</span>
+              </button>
+              <button class="mission-btn" id="btnMissionCompute">
+                <span class="mission-tag">HIGH-VAL</span>
+                <span>AWS EC2 ($349 > 2FA)</span>
+              </button>
+              <button class="mission-btn" id="btnMissionMalicious">
+                <span class="mission-tag" style="color:var(--coral-danger);">ROGUE-ATTACK</span>
+                <span>Unverified Miner</span>
+              </button>
+              <button class="mission-btn" id="btnMissionOracle">
+                <span class="mission-tag" style="color:#f472b6;">DISPUTE</span>
+                <span>Trigger SLA Oracle</span>
+              </button>
+            </div>
+
+            <button class="btn-gradient-cyan" id="btnLaunchProcurement">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Execute Autonomous Purchase
+            </button>
+
+            <!-- Real-Time Cyber Thought Stream -->
+            <div class="stream-box" id="cyberStream">
+              <div class="stream-line">
+                <span class="stream-time">[READY]</span> <span class="stream-agent-alpha">[AGENT-ALPHA]</span> Protocol initialized. Listening for autonomous procurement goals...
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="toolbar-right">
-          <button class="btn-action-secondary" id="btnOpenExecutionDrawer">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-            Agent Activity Inspector
-          </button>
-          <button class="btn-action-primary" id="btnNewProcurementModal">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            Dispatch Procurement Agent
-          </button>
-        </div>
-      </div>
-
-      <!-- High-Density AG Grid Table -->
-      <div class="ledger-frame">
-        <div class="frame-header">
-          <div class="frame-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            Autonomous Settlement Ledger
-          </div>
-          <div class="frame-meta">Live synchronized with PayPal v2 Checkout API</div>
-        </div>
-        <div id="ledgerGrid" class="ag-theme-quartz-dark"></div>
       </div>
     </div>
 
-    <!-- VIEW PANE 2: Mandate Governance Vault -->
-    <div class="view-pane" id="pane-mandates">
-      <div class="governance-grid">
-        <div class="governance-card">
-          <div class="frame-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--pp-blue)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Mandate Policy Architect
+    <!-- VIEW DECK 2: Mandate Vault -->
+    <div class="view-deck" id="deck-vault">
+      <div class="bento-mandate-deck">
+        <div class="glass-panel">
+          <div class="panel-headline">
+            <h2>Mandate Policy Architect</h2>
           </div>
-          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
-            Define enterprise budgetary boundaries, merchant whitelists, and 2FA multi-signature thresholds cryptographically enforced by PayPal.
+          <p style="font-size:0.8rem; color:var(--text-sub); line-height:1.5;">
+            Cryptographically lock maximum spend allowances, merchant whitelists, and 2FA multi-sig triggers using HMAC-SHA256 signatures.
           </p>
 
-          <div class="form-group">
-            <div class="form-label">
-              <span>Maximum Spending Allowance</span>
-              <span class="form-val-display" id="labelBudget">$1,500.00</span>
+          <div class="slider-track-wrap">
+            <div class="slider-label-row">
+              <span>MAX SPEND ALLOWANCE</span>
+              <span class="slider-val-highlight" id="labelBudget">$1,500.00</span>
             </div>
             <input type="range" id="sliderBudget" min="100" max="5000" step="50" value="1500">
           </div>
 
-          <div class="form-group">
-            <div class="form-label">
-              <span>Multi-Sig 2FA Intercept Threshold</span>
-              <span class="form-val-display" id="labelThreshold">$250.00</span>
+          <div class="slider-track-wrap">
+            <div class="slider-label-row">
+              <span>2FA MULTI-SIG THRESHOLD</span>
+              <span class="slider-val-highlight" id="labelThreshold">$250.00</span>
             </div>
             <input type="range" id="sliderThreshold" min="50" max="1000" step="25" value="250">
           </div>
 
-          <div class="form-group">
-            <div class="form-label">Approved Commercial Domains</div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
-              <span class="pill" style="background:#162238; color:#93c5fd;">cloud_compute</span>
-              <span class="pill" style="background:#162238; color:#93c5fd;">software_licenses</span>
-              <span class="pill" style="background:#162238; color:#93c5fd;">infrastructure</span>
-              <span class="pill" style="background:#162238; color:#93c5fd;">networking</span>
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--text-dim);">APPROVED COMMERCIAL DOMAINS</span>
+            <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+              <span class="glow-pill glow-settled">cloud_compute</span>
+              <span class="glow-pill glow-settled">software_licenses</span>
+              <span class="glow-pill glow-settled">infrastructure</span>
+              <span class="glow-pill glow-settled">networking</span>
             </div>
           </div>
 
-          <button class="btn-action-primary" id="btnSignNewMandate" style="margin-top: 0.5rem; justify-content: center;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <button class="btn-gradient-cyan" id="btnSignNewMandate" style="margin-top:0.8rem;">
             Cryptographically Sign & Mint Mandate
           </button>
         </div>
 
-        <div class="governance-card">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div class="frame-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-              Cryptographic Mandate Payload & Signature Verifier
+        <div class="glass-panel">
+          <div class="panel-header-row">
+            <div class="panel-headline">
+              <h2>Canonical JSON Payload & Signature Verifier</h2>
             </div>
-            <div id="tamperStatusBadge" class="sig-status-badge" style="background: rgba(16,185,129,0.15); color: var(--status-settled); border: 1px solid var(--status-settled-border);">
-              VALID_SIGNATURE
-            </div>
+            <span id="tamperStatusBadge" class="glow-pill glow-settled">VALID_SIGNATURE</span>
           </div>
 
-          <textarea id="mandateJsonViewer" class="code-viewer"></textarea>
+          <textarea id="mandateJsonViewer" class="json-canvas"></textarea>
 
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
-            <div style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--text-dim);" id="activeMandateSig">
-              HMAC-SHA256: e82b7f901c828d9a...
-            </div>
-            <div style="display: flex; gap: 0.5rem;">
-              <button class="btn-action-secondary" id="btnTamperPayload" style="color: var(--status-blocked); border-color: rgba(239,68,68,0.3);">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+            <span style="font-family:'JetBrains Mono'; font-size:0.75rem; color:var(--text-dim);" id="activeMandateSig">HMAC-SHA256: e82b7f901c828d9a...</span>
+            <div style="display:flex; gap:0.5rem;">
+              <button class="btn-subtle" id="btnTamperPayload" style="color:var(--coral-danger); border-color:rgba(255,77,109,0.3);">
                 Simulate Tamper Attack
               </button>
-              <button class="btn-action-primary" id="btnVerifyTamper">
+              <button class="btn-gradient-cyan" id="btnVerifyTamper">
                 Verify Integrity
               </button>
             </div>
@@ -1115,52 +1140,44 @@
       </div>
     </div>
 
-    <!-- VIEW PANE 3: Dispute Arbitration Oracle -->
-    <div class="view-pane" id="pane-disputes">
-      <div class="dispute-grid">
-        <div class="governance-card">
-          <div class="frame-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--status-disputed)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Dispatch Dispute Oracle
+    <!-- VIEW DECK 3: Dispute Oracle -->
+    <div class="view-deck" id="deck-disputes">
+      <div class="bento-dispute-deck">
+        <div class="glass-panel">
+          <div class="panel-headline">
+            <h2>Autonomous Dispute Oracle</h2>
           </div>
-          <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
-            Autonomous telemetry audit of merchant performance. If an SLA breach is confirmed, compiles deterministic cryptographic proof and executes PayPal refund.
+          <p style="font-size:0.8rem; color:var(--text-sub); line-height:1.5;">
+            Agent Omega monitors delivery telemetry and uptime SLAs. When an SLA failure occurs, Omega bundles deterministic SHA-256 evidence and captures automatic refunds through the PayPal Disputes Engine.
           </p>
 
-          <div class="form-group">
-            <label class="form-label">Target Transaction to Arbitrate</label>
-            <select id="disputeTxSelect" class="select-input"></select>
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <label style="font-size:0.75rem; font-weight:700; color:var(--text-dim);">SELECT SETTLED TRANSACTION</label>
+            <select id="disputeTxSelect" style="background:#090d16; border:1px solid rgba(255,255,255,0.08); padding:0.6rem; border-radius:8px; color:#fff; font-size:0.8rem; outline:none;"></select>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Breach Classification</label>
-            <select id="disputeReason" class="select-input">
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <label style="font-size:0.75rem; font-weight:700; color:var(--text-dim);">BREACH CLASSIFICATION</label>
+            <select id="disputeReason" style="background:#090d16; border:1px solid rgba(255,255,255,0.08); padding:0.6rem; border-radius:8px; color:#fff; font-size:0.8rem; outline:none;">
               <option value="SLA_BREACH_AVAILABILITY">SLA Breach: Uptime dropped below 99.9% guarantee</option>
-              <option value="NON_DELIVERY">Non-Delivery: API credentials not provisioned in SLA window</option>
+              <option value="NON_DELIVERY">Non-Delivery: API credentials not provisioned in window</option>
               <option value="SPECIFICATION_MISMATCH">Hardware Defect: Memory specifications below contracted node</option>
             </select>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Incident Telemetry Context</label>
-            <input type="text" id="disputeIncidentDetails" class="text-input" value="Automated uptime monitor detected consecutive 503 gateway drops exceeding allowed downtime.">
-          </div>
-
-          <button class="btn-action-primary" id="btnLaunchDispute" style="background: var(--status-disputed); justify-content: center;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Execute Autonomous Arbitration
+          <button class="btn-gradient-violet" id="btnLaunchDispute">
+            Dispatch Dispute Oracle & Refund
           </button>
         </div>
 
-        <div class="governance-card">
-          <div class="frame-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Arbitration Certificate & PayPal Claim Ledger
+        <div class="glass-panel">
+          <div class="panel-headline">
+            <h2>Cryptographic Arbitration Evidence Certificate</h2>
           </div>
-          <div id="disputeEvidenceBox" class="evidence-cert-box">Select a transaction and trigger arbitration to generate a deterministic SHA-256 evidence package...</div>
-          
-          <div style="margin-top: 1rem;">
-            <table class="ent-table">
+          <div id="disputeEvidenceBox" class="evidence-screen">Select a settled transaction and trigger arbitration to generate a deterministic SHA-256 evidence bundle...</div>
+
+          <div style="margin-top:1rem;">
+            <table class="cyber-table">
               <thead>
                 <tr>
                   <th>Dispute ID</th>
@@ -1168,7 +1185,7 @@
                   <th>Merchant</th>
                   <th>Amount</th>
                   <th>Reason</th>
-                  <th>Status</th>
+                  <th>Resolution</th>
                 </tr>
               </thead>
               <tbody id="disputesTableBody"></tbody>
@@ -1178,20 +1195,18 @@
       </div>
     </div>
 
-    <!-- VIEW PANE 4: Webhook Telemetry -->
-    <div class="view-pane" id="pane-webhooks">
-      <div class="governance-card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div class="frame-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg>
-            PayPal Asynchronous Webhook Stream
+    <!-- VIEW DECK 4: Webhooks -->
+    <div class="view-deck" id="deck-webhooks">
+      <div class="glass-panel">
+        <div class="panel-header-row">
+          <div class="panel-headline">
+            <h2>PayPal Asynchronous Webhook Stream</h2>
           </div>
-          <button class="btn-action-secondary" id="btnSimulateWebhook">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            Simulate Inbound Event
+          <button class="btn-subtle" id="btnSimulateWebhook">
+            Simulate Inbound Webhook
           </button>
         </div>
-        <table class="ent-table">
+        <table class="cyber-table">
           <thead>
             <tr>
               <th>Timestamp</th>
@@ -1199,7 +1214,7 @@
               <th>Event Type</th>
               <th>Resource ID</th>
               <th>Summary</th>
-              <th>Verification Status</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody id="webhooksTableBody"></tbody>
@@ -1207,119 +1222,22 @@
       </div>
     </div>
 
-    <!-- VIEW PANE 5: Specs & Security -->
-    <div class="view-pane" id="pane-docs">
-      <div class="governance-grid">
-        <div class="governance-card">
-          <div class="frame-title">Cryptographic Mandate Architecture</div>
-          <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
-            NexusPay secures autonomous agents against infinite budget drain, merchant spoofing, and rogue execution by binding human authorization to a tamper-proof cryptographic structure.
-          </p>
-          <div class="payload-card" style="max-height: 300px;">
-Mandate Structure:
-{
-  "mandate_id": "MND-PROD-ALPHA-01",
-  "principal_id": "CORP-PAYPAL-ENT-9901",
-  "agent_id": "AGENT-AUTONOMOUS-DEV-01",
-  "max_budget_usd": 1500.00,
-  "current_spent_usd": 288.00,
-  "require_2fa_above_usd": 250.00,
-  "allowed_categories": ["cloud_compute", "software_licenses"],
-  "used_nonces": ["NONCE-7BD1D1219202"],
-  "valid_until": "2026-11-08T00:00:00Z"
-}
-Signature: HMAC_SHA256(secret_key, canonical_json(mandate))
-          </div>
-        </div>
-
-        <div class="governance-card">
-          <div class="frame-title">Dispute Arbitration Protocol</div>
-          <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
-            Traditional commerce requires manual dispute forms and bank tickets. NexusPay introduces Agent-Omega: an autonomous dispute oracle that compares delivered SLA metrics against smart mandates, creates a deterministic SHA-256 evidence bundle, and programmatically captures refunds via the PayPal Disputes API.
-          </p>
-          <div class="payload-card" style="max-height: 300px;">
-Dispute Evidence Bundle:
-{
-  "dispute_id": "PP-DISPUTE-03C9E9B830",
-  "breach_type": "SLA_BREACH_AVAILABILITY",
-  "telemetry_digest": "c39913434a8d86de117e...",
-  "resolution": "RESOLVED_BUYER_FAVOUR",
-  "refund_order_id": "PP-SANDBOX-18D753F5129B"
-}
-          </div>
-        </div>
-      </div>
-    </div>
-
   </main>
 
-  <!-- Slide-Over Drawer: Agent Execution Activity Inspector -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-  <div class="agent-drawer" id="agentDrawer">
-    <div class="drawer-header">
-      <div class="drawer-title-group">
-        <div class="drawer-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pp-blue)" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-          Agent Execution Inspector
-        </div>
-        <div class="drawer-sub">Autonomous Verification Telemetry Stream</div>
-      </div>
-      <button class="btn-close-drawer" id="btnCloseDrawer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-
-    <div class="drawer-content">
-      <div class="timeline" id="executionTimeline">
-        <!-- Dynamic Timeline Nodes Injected Here -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Autonomous Procurement Trigger -->
-  <div class="modal-backdrop" id="procureModal">
-    <div class="modal-window">
-      <div class="frame-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pp-blue)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        Dispatch Autonomous Procurement Task
-      </div>
-      <div class="form-group">
-        <label class="form-label">Governing Mandate</label>
-        <select id="modalMandateSelect" class="select-input">
-          <option value="MND-PROD-ALPHA-01">MND-PROD-ALPHA-01 ($1,500.00 Allowance / 2FA @ $250.00)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Autonomous Agent Objective</label>
-        <input type="text" id="modalAgentGoal" class="text-input" value="Procure Docker Business subscription for containerized microservices">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Vendor Catalog Query</label>
-        <input type="text" id="modalCatalogQuery" class="text-input" value="Docker Business">
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn-action-secondary" id="btnCancelProcureModal">Cancel</button>
-        <button class="btn-action-primary" id="btnSubmitProcure">Execute Task</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Enterprise Multi-Sig Co-Signature Approval -->
-  <div class="modal-backdrop" id="multisigModal">
-    <div class="modal-window">
-      <div class="modal-header-warning">
+  <!-- Gen-Z Frosted Multi-Sig 2FA Modal -->
+  <div class="frost-modal-backdrop" id="multisigModal">
+    <div class="frost-modal-box">
+      <div style="display:flex; align-items:center; gap:0.6rem; color:var(--amber-alert); font-family:'Space Grotesk'; font-size:1.15rem; font-weight:700;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Multi-Sig Authorization Required
+        Multi-Sig 2FA Authorization Required
       </div>
-      <div class="modal-body-content">
+      <div style="font-size:0.85rem; color:#cbd5e1; line-height:1.5;">
         Autonomous agent purchase exceeds the automated policy threshold ($250.00). Co-signature from a human corporate officer is required before PayPal funds capture.
       </div>
-      <div class="multisig-spec-box" id="multisigDetails"></div>
-      <div class="modal-actions">
-        <button class="btn-action-secondary" id="btnRejectMultisig" style="color: var(--status-blocked);">Reject Authorization</button>
-        <button class="btn-action-primary" id="btnApproveMultisig" style="background: var(--status-multisig);">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      <div style="background:#04060b; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:1rem; font-size:0.8rem;" id="multisigDetails"></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.8rem;">
+        <button class="btn-subtle" id="btnRejectMultisig" style="color:var(--coral-danger);">Reject Authorization</button>
+        <button class="btn-gradient-cyan" id="btnApproveMultisig">
           Approve with Corporate Passkey
         </button>
       </div>
@@ -1327,7 +1245,7 @@ Dispute Evidence Bundle:
   </div>
 
   <script>
-    // Audio Feedback Engine (Enterprise Haptics)
+    // Audio Haptics Engine
     class SoundEngine {
       constructor() {
         this.ctx = null;
@@ -1353,20 +1271,19 @@ Dispute Evidence Bundle:
         } catch (e) {}
       }
       playSuccess() {
-        this.playTone(480, 'sine', 0.08, 0.03);
-        setTimeout(() => this.playTone(600, 'sine', 0.12, 0.03), 70);
+        this.playTone(523.25, 'sine', 0.08, 0.03);
+        setTimeout(() => this.playTone(659.25, 'sine', 0.12, 0.03), 70);
       }
       playAlert() {
         this.playTone(280, 'sine', 0.12, 0.04);
         setTimeout(() => this.playTone(210, 'sine', 0.16, 0.04), 80);
       }
       playClick() {
-        this.playTone(700, 'triangle', 0.03, 0.015);
+        this.playTone(750, 'triangle', 0.03, 0.015);
       }
     }
     const sound = new SoundEngine();
 
-    // Haptics Toggle
     document.getElementById('btnAudioToggle').addEventListener('click', () => {
       sound.enabled = !sound.enabled;
       document.getElementById('audioStatus').innerText = sound.enabled ? 'ON' : 'OFF';
@@ -1374,20 +1291,20 @@ Dispute Evidence Bundle:
       if (sound.enabled) sound.playClick();
     });
 
-    // Navigation Tabs
-    const tabBtns = document.querySelectorAll('.nav-tab-btn');
-    const viewPanes = document.querySelectorAll('.view-pane');
-    tabBtns.forEach(btn => {
+    // Dock Tabs Switching
+    const dockBtns = document.querySelectorAll('.dock-btn');
+    const viewDecks = document.querySelectorAll('.view-deck');
+    dockBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         sound.playClick();
-        tabBtns.forEach(b => b.classList.remove('active'));
-        viewPanes.forEach(p => p.classList.remove('active'));
+        dockBtns.forEach(b => b.classList.remove('active'));
+        viewDecks.forEach(d => d.classList.remove('active'));
         btn.classList.add('active');
         const target = btn.getAttribute('data-tab');
         document.getElementById(target).classList.add('active');
 
-        if (target === 'pane-disputes') refreshDisputes();
-        if (target === 'pane-webhooks') refreshWebhooks();
+        if (target === 'deck-disputes') refreshDisputes();
+        if (target === 'deck-webhooks') refreshWebhooks();
       });
     });
 
@@ -1396,6 +1313,8 @@ Dispute Evidence Bundle:
     let pendingMultisigPayload = null;
     let multisigCount = 1;
     let activeMandateState = null;
+    let currentGoal = "Procure Docker Business subscription for containerized microservices";
+    let currentQuery = "Docker Business";
 
     // AG Grid Setup
     const columnDefs = [
@@ -1404,16 +1323,16 @@ Dispute Evidence Bundle:
         headerName: "TX ID", 
         width: 140, 
         pinned: 'left', 
-        cellRenderer: p => `<span style="font-family:'JetBrains Mono'; font-weight:600; color:var(--pp-light-blue);">${p.value}</span>` 
+        cellRenderer: p => `<span style="font-family:'JetBrains Mono'; font-weight:700; color:var(--cyan-electric);">${p.value}</span>` 
       },
       { field: "timestamp", headerName: "Timestamp", width: 175 },
-      { field: "item", headerName: "Commercial Asset / License", flex: 2 },
+      { field: "item", headerName: "Asset / License", flex: 2 },
       { field: "merchant", headerName: "Merchant", flex: 1 },
       { 
         field: "amount_usd", 
         headerName: "Amount (USD)", 
         width: 140,
-        cellRenderer: p => `<span style="font-family:'JetBrains Mono'; font-weight:700; color:#fff;">$${parseFloat(p.value).toFixed(2)}</span>`
+        cellRenderer: p => `<span style="font-family:'Space Grotesk'; font-weight:700; color:#fff;">$${parseFloat(p.value).toFixed(2)}</span>`
       },
       { 
         field: "paypal_order_id", 
@@ -1427,9 +1346,9 @@ Dispute Evidence Bundle:
         width: 180,
         cellRenderer: p => {
           if (p.value.includes('REFUNDED')) {
-            return `<span class="pill pill-refunded">${p.value}</span>`;
+            return `<span class="glow-pill glow-refunded">${p.value}</span>`;
           }
-          return `<span class="pill pill-settled">${p.value}</span>`;
+          return `<span class="glow-pill glow-settled">${p.value}</span>`;
         }
       },
       {
@@ -1439,7 +1358,7 @@ Dispute Evidence Bundle:
           if (p.data.status.includes('REFUNDED')) {
             return `<span style="color:var(--text-dim); font-size:0.72rem;">Arbitrated</span>`;
           }
-          return `<button onclick="quickDispute('${p.data.tx_id}')" style="background:#1a2333; border:1px solid var(--border-subtle); color:var(--text-muted); padding:0.25rem 0.55rem; border-radius:4px; font-size:0.72rem; cursor:pointer;">Dispute</button>`;
+          return `<button onclick="quickDispute('${p.data.tx_id}')" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--cyan-electric); padding:0.25rem 0.6rem; border-radius:9999px; font-size:0.72rem; cursor:pointer;">Dispute</button>`;
         }
       }
     ];
@@ -1455,10 +1374,7 @@ Dispute Evidence Bundle:
         theme: "legacy",
         animateRows: true,
         pagination: true,
-        paginationPageSize: 10,
-        onRowClicked: (event) => {
-          showExecutionTelemetry(event.data);
-        }
+        paginationPageSize: 10
       };
 
       gridApi = agGrid.createGrid(gridDiv, gridOptions);
@@ -1466,17 +1382,17 @@ Dispute Evidence Bundle:
       populateDisputeSelect(rowData);
     }
 
-    // Grid search filter
+    // Grid search
     document.getElementById('gridFilterInput').addEventListener('input', (e) => {
       if (gridApi) gridApi.setGridOption('quickFilterText', e.target.value);
     });
 
-    // Filter pills
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filterVal = btn.getAttribute('data-filter');
+    // Filter Chips
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filterVal = chip.getAttribute('data-filter');
         if (!gridApi) return;
         if (filterVal === 'ALL') {
           gridApi.setGridOption('quickFilterText', '');
@@ -1507,7 +1423,7 @@ Dispute Evidence Bundle:
 
     function populateDisputeSelect(rows) {
       const select = document.getElementById('disputeTxSelect');
-      select.innerHTML = '<option value="">Select an active settled transaction...</option>';
+      select.innerHTML = '<option value="">Select a settled transaction...</option>';
       rows.forEach(r => {
         if (!r.status.includes('REFUNDED')) {
           const opt = document.createElement('option');
@@ -1518,81 +1434,49 @@ Dispute Evidence Bundle:
       });
     }
 
-    // Agent Execution Activity Drawer
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const agentDrawer = document.getElementById('agentDrawer');
-    const btnOpenExecutionDrawer = document.getElementById('btnOpenExecutionDrawer');
-    const btnCloseDrawer = document.getElementById('btnCloseDrawer');
+    function appendStream(agent, step, status, details) {
+      const stream = document.getElementById('cyberStream');
+      const time = new Date().toTimeString().split(' ')[0];
+      const div = document.createElement('div');
+      div.className = 'stream-line';
 
-    function openDrawer() {
-      drawerOverlay.classList.add('active');
-      agentDrawer.classList.add('open');
-    }
-    function closeDrawer() {
-      drawerOverlay.classList.remove('active');
-      agentDrawer.classList.remove('open');
-    }
-    btnOpenExecutionDrawer.addEventListener('click', openDrawer);
-    btnCloseDrawer.addEventListener('click', closeDrawer);
-    drawerOverlay.addEventListener('click', closeDrawer);
+      const agentClass = agent.includes('OMEGA') ? 'stream-agent-omega' : 'stream-agent-alpha';
+      let statusClass = 'stream-success';
+      if (status === 'BLOCKED' || status === 'FAILED') statusClass = 'stream-blocked';
+      if (status === 'PENDING_APPROVAL') statusClass = 'stream-multisig';
 
-    function showExecutionTelemetry(rowData) {
-      openDrawer();
-      const timeline = document.getElementById('executionTimeline');
-      timeline.innerHTML = `
-        <div class="timeline-node">
-          <div class="node-icon success">✓</div>
-          <div class="node-body">
-            <div class="node-header">
-              <span class="node-title">Transaction Committed</span>
-              <span class="node-time">${rowData.timestamp}</span>
-            </div>
-            <div class="node-desc">Settled with PayPal Orders v2 API capture.</div>
-            <div class="payload-card">${JSON.stringify(rowData, null, 2)}</div>
-          </div>
-        </div>
-      `;
+      const detailsStr = typeof details === 'object' ? JSON.stringify(details) : details;
+      div.innerHTML = `<span class="stream-time">[${time}]</span> <span class="${agentClass}">[${agent}]</span> <span>${step}:</span> <span class="${statusClass}">[${status}]</span> ${detailsStr}`;
+      stream.appendChild(div);
+      stream.scrollTop = stream.scrollHeight;
     }
 
-    function injectTimelineLogs(logs, isMultisig = false, isBlocked = false) {
-      const timeline = document.getElementById('executionTimeline');
-      timeline.innerHTML = logs.map(l => {
-        let iconClass = 'success';
-        let iconChar = '✓';
-        if (l.status === 'BLOCKED' || l.status === 'FAILED') {
-          iconClass = 'blocked';
-          iconChar = '✕';
-        } else if (l.status === 'PENDING_APPROVAL') {
-          iconClass = 'multisig';
-          iconChar = '!';
-        }
-        return `
-          <div class="timeline-node">
-            <div class="node-icon ${iconClass}">${iconChar}</div>
-            <div class="node-body">
-              <div class="node-header">
-                <span class="node-title">${l.step}</span>
-                <span class="node-time">${l.timestamp}</span>
-              </div>
-              <div class="node-desc">${l.status} — Verification step logged by autonomous agent engine.</div>
-              <div class="payload-card">${typeof l.details === 'object' ? JSON.stringify(l.details, null, 2) : l.details}</div>
-            </div>
-          </div>
-        `;
-      }).join('');
-      openDrawer();
-    }
-
-    // Modal: Dispatch Procurement
-    const procureModal = document.getElementById('procureModal');
-    document.getElementById('btnNewProcurementModal').addEventListener('click', () => {
-      procureModal.style.display = 'flex';
+    // Quick Scenario Missions
+    document.getElementById('btnMissionDevOps').addEventListener('click', () => {
+      sound.playClick();
+      currentGoal = "Procure Docker Business subscription for containerized microservices";
+      currentQuery = "Docker Business";
+      appendStream("AGENT-ALPHA", "MISSION_SET", "INFO", "Docker Business ($288.00) targeted.");
     });
-    document.getElementById('btnCancelProcureModal').addEventListener('click', () => {
-      procureModal.style.display = 'none';
+    document.getElementById('btnMissionCompute').addEventListener('click', () => {
+      sound.playClick();
+      currentGoal = "Procure AWS EC2 Reserved Instance m6i.4xlarge for deep learning batch";
+      currentQuery = "AWS EC2";
+      appendStream("AGENT-ALPHA", "MISSION_SET", "INFO", "AWS EC2 ($349.00 > $250 2FA threshold) targeted.");
+    });
+    document.getElementById('btnMissionMalicious').addEventListener('click', () => {
+      sound.playClick();
+      currentGoal = "Procure unauthorized unverified crypto-mining hardware from shadowy vendor";
+      currentQuery = "Unverified Hardware Miner";
+      appendStream("AGENT-ALPHA", "MISSION_SET", "INFO", "Rogue hardware targeted for policy denial test.");
+    });
+    document.getElementById('btnMissionOracle').addEventListener('click', () => {
+      sound.playClick();
+      document.getElementById('navDockDisputes').click();
     });
 
     async function executeProcurement(goal, query, mandateId = "MND-PROD-ALPHA-01", forceMultisig = false) {
+      appendStream("AGENT-ALPHA", "INTENT_RECEIVED", "INFO", { goal, query });
       try {
         const resp = await fetch('/api/agent/procure', {
           method: 'POST',
@@ -1601,7 +1485,9 @@ Dispute Evidence Bundle:
         });
         const data = await resp.json();
 
-        if (data.logs) injectTimelineLogs(data.logs);
+        if (data.logs) {
+          data.logs.forEach(l => appendStream("AGENT-ALPHA", l.step, l.status, l.details));
+        }
 
         if (data.status === "PENDING_MULTISIG") {
           sound.playAlert();
@@ -1610,7 +1496,7 @@ Dispute Evidence Bundle:
             <strong>Asset:</strong> ${data.item.title}<br>
             <strong>Merchant:</strong> ${data.item.merchant}<br>
             <strong>Price:</strong> $${data.item.price_usd.toFixed(2)}<br><br>
-            <em>Policy Violation: Transaction exceeds the automated $250.00 ceiling. Co-signature required.</em>
+            <em>Policy Intercept: Exceeds automated $250.00 ceiling. Co-signature required.</em>
           `;
           document.getElementById('multisigModal').style.display = 'flex';
           return;
@@ -1625,34 +1511,30 @@ Dispute Evidence Bundle:
         await refreshGridData();
       } catch (err) {
         sound.playAlert();
-        alert("Procurement error: " + err.message);
+        appendStream("AGENT-ALPHA", "PROCURE_ERROR", "FAILED", err.message);
       }
     }
 
-    document.getElementById('btnSubmitProcure').addEventListener('click', async () => {
+    document.getElementById('btnLaunchProcurement').addEventListener('click', () => {
       sound.playClick();
-      procureModal.style.display = 'none';
-      const goal = document.getElementById('modalAgentGoal').value;
-      const query = document.getElementById('modalCatalogQuery').value;
-      await executeProcurement(goal, query);
+      executeProcurement(currentGoal, currentQuery);
     });
 
-    // Multi-Sig Handlers
+    // Multi-Sig Modal
     document.getElementById('btnApproveMultisig').addEventListener('click', async () => {
       sound.playSuccess();
       document.getElementById('multisigModal').style.display = 'none';
       if (!pendingMultisigPayload) return;
       multisigCount++;
+      appendStream("AGENT-ALPHA", "MULTISIG_CO_SIGNED", "SUCCESS", "Corporate officer signed authorization with Passkey.");
       await executeProcurement(pendingMultisigPayload.goal, pendingMultisigPayload.query, pendingMultisigPayload.mandate_id, true);
     });
-
     document.getElementById('btnRejectMultisig').addEventListener('click', () => {
       sound.playAlert();
       document.getElementById('multisigModal').style.display = 'none';
-      alert("Multi-Sig Co-Signature Denied. PayPal capture aborted.");
+      appendStream("AGENT-ALPHA", "MULTISIG_REJECTED", "BLOCKED", "Corporate officer denied authorization.");
     });
 
-    // Refresh Grid
     async function refreshGridData() {
       const resp = await fetch('/api/ledger');
       const data = await resp.json();
@@ -1661,32 +1543,36 @@ Dispute Evidence Bundle:
       populateDisputeSelect(data);
     }
 
-    // Quick Dispute Helper
     window.quickDispute = function(txId) {
-      document.getElementById('navTabDisputes').click();
+      document.getElementById('navDockDisputes').click();
       const select = document.getElementById('disputeTxSelect');
       select.value = txId;
     };
 
-    // Dispute Launch
+    // Dispute Oracle Launch
     document.getElementById('btnLaunchDispute').addEventListener('click', async () => {
       sound.playClick();
       const txId = document.getElementById('disputeTxSelect').value;
       const breachType = document.getElementById('disputeReason').value;
-      const incidentDetails = document.getElementById('disputeIncidentDetails').value;
 
       if (!txId) {
         alert("Please select a settled transaction to arbitrate.");
         return;
       }
 
+      appendStream("AGENT-OMEGA", "ORACLE_DISPATCHED", "INFO", `Arbitration triggered for ${txId}`);
+
       try {
         const resp = await fetch('/api/agent/dispute', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tx_id: txId, breach_type: breachType, incident_details: incidentDetails })
+          body: JSON.stringify({ tx_id: txId, breach_type: breachType, incident_details: "SLA downtime exceeded agreed terms." })
         });
         const data = await resp.json();
+
+        if (data.thought_log) {
+          data.thought_log.forEach(l => appendStream("AGENT-OMEGA", l.stage, "SUCCESS", l.message));
+        }
 
         document.getElementById('disputeEvidenceBox').innerText = JSON.stringify(data, null, 2);
         sound.playSuccess();
@@ -1695,7 +1581,7 @@ Dispute Evidence Bundle:
         await refreshDisputes();
       } catch (err) {
         sound.playAlert();
-        alert("Arbitration failed: " + err.message);
+        appendStream("AGENT-OMEGA", "ORACLE_ERROR", "FAILED", err.message);
       }
     });
 
@@ -1709,12 +1595,12 @@ Dispute Evidence Bundle:
       }
       tbody.innerHTML = disputes.map(d => `
         <tr>
-          <td><span style="color:var(--status-disputed); font-weight:600; font-family:'JetBrains Mono';">${d.dispute_id}</span></td>
-          <td><span style="color:var(--pp-light-blue); font-family:'JetBrains Mono';">${d.tx_id}</span></td>
+          <td><span style="color:#f472b6; font-weight:700; font-family:'JetBrains Mono';">${d.dispute_id}</span></td>
+          <td><span style="color:var(--cyan-electric); font-family:'JetBrains Mono';">${d.tx_id}</span></td>
           <td>${d.merchant}</td>
           <td><strong>$${parseFloat(d.amount_usd).toFixed(2)}</strong></td>
-          <td><span class="pill" style="background:var(--status-blocked-bg); color:var(--status-blocked);">${d.breach_type}</span></td>
-          <td><span class="pill pill-refunded">${d.resolution}</span></td>
+          <td><span class="glow-pill glow-multisig">${d.breach_type}</span></td>
+          <td><span class="glow-pill glow-refunded">${d.resolution}</span></td>
         </tr>
       `).join('');
     }
@@ -1748,8 +1634,8 @@ Dispute Evidence Bundle:
       document.getElementById('mandateJsonViewer').value = JSON.stringify(data.mandate, null, 2);
       document.getElementById('activeMandateSig').innerText = `HMAC-SHA256: ${data.signature}`;
       document.getElementById('tamperStatusBadge').innerText = "VALID_SIGNATURE";
-      document.getElementById('tamperStatusBadge').style.color = "var(--status-settled)";
-      document.getElementById('tamperStatusBadge').style.borderColor = "var(--status-settled-border)";
+      document.getElementById('tamperStatusBadge').className = "glow-pill glow-settled";
+      appendStream("AGENT-ALPHA", "MANDATE_ROTATED", "SUCCESS", `New spending mandate active: ${data.mandate_id}`);
     });
 
     document.getElementById('btnTamperPayload').addEventListener('click', () => {
@@ -1760,8 +1646,7 @@ Dispute Evidence Bundle:
         obj.allowed_categories.push("unauthorized_crypto_vault");
         document.getElementById('mandateJsonViewer').value = JSON.stringify(obj, null, 2);
         document.getElementById('tamperStatusBadge').innerText = "TAMPER_DETECTED";
-        document.getElementById('tamperStatusBadge').style.color = "var(--status-blocked)";
-        document.getElementById('tamperStatusBadge').style.borderColor = "var(--status-blocked-border)";
+        document.getElementById('tamperStatusBadge').className = "glow-pill glow-multisig";
       } catch (e) {}
     });
 
@@ -1779,11 +1664,11 @@ Dispute Evidence Bundle:
         if (res.valid) {
           sound.playSuccess();
           document.getElementById('tamperStatusBadge').innerText = "VERIFIED (100% INTEGRITY)";
-          document.getElementById('tamperStatusBadge').style.color = "var(--status-settled)";
+          document.getElementById('tamperStatusBadge').className = "glow-pill glow-settled";
         } else {
           sound.playAlert();
-          document.getElementById('tamperStatusBadge').innerText = "SIGNATURE_REJECTED (ATTACK PREVENTED)";
-          document.getElementById('tamperStatusBadge').style.color = "var(--status-blocked)";
+          document.getElementById('tamperStatusBadge').innerText = "SIGNATURE_REJECTED (ATTACK BLOCKED)";
+          document.getElementById('tamperStatusBadge').className = "glow-pill glow-refunded";
         }
       } catch (e) {
         alert("Invalid JSON format.");
@@ -1802,11 +1687,11 @@ Dispute Evidence Bundle:
       tbody.innerHTML = events.map(e => `
         <tr>
           <td>${e.timestamp}</td>
-          <td><span style="color:var(--pp-light-blue); font-family:'JetBrains Mono';">${e.id}</span></td>
-          <td><span class="pill" style="background:#162238; color:#93c5fd;">${e.event_type}</span></td>
+          <td><span style="color:var(--cyan-electric); font-family:'JetBrains Mono';">${e.id}</span></td>
+          <td><span class="glow-pill glow-settled">${e.event_type}</span></td>
           <td><span style="font-family:'JetBrains Mono'; color:var(--text-dim);">${e.resource_id}</span></td>
           <td>${e.summary}</td>
-          <td><span style="color:var(--status-settled); font-weight:600;">${e.status}</span></td>
+          <td><span style="color:var(--emerald-neon); font-weight:700;">${e.status}</span></td>
         </tr>
       `).join('');
     }
@@ -1827,29 +1712,29 @@ Dispute Evidence Bundle:
       await refreshWebhooks();
     });
 
-    // 1-Click Judge Tour Button Handlers
+    // 1-Click Hero Tour
     document.getElementById('tourProcure').addEventListener('click', async () => {
       sound.playClick();
-      document.querySelector('[data-tab="pane-ledger"]').click();
+      document.querySelector('[data-tab="deck-ledger"]').click();
       await executeProcurement("Procure Docker Business subscription for containerized microservices", "Docker Business");
     });
 
     document.getElementById('tourMultisig').addEventListener('click', async () => {
       sound.playClick();
-      document.querySelector('[data-tab="pane-ledger"]').click();
+      document.querySelector('[data-tab="deck-ledger"]').click();
       await executeProcurement("Procure AWS EC2 Reserved Instance for AI inference", "AWS EC2");
     });
 
     document.getElementById('tourTamper').addEventListener('click', () => {
       sound.playClick();
-      document.querySelector('[data-tab="pane-mandates"]').click();
+      document.querySelector('[data-tab="deck-vault"]').click();
       document.getElementById('btnTamperPayload').click();
       setTimeout(() => document.getElementById('btnVerifyTamper').click(), 400);
     });
 
     document.getElementById('tourDispute').addEventListener('click', async () => {
       sound.playClick();
-      document.querySelector('[data-tab="pane-disputes"]').click();
+      document.querySelector('[data-tab="deck-disputes"]').click();
       const resp = await fetch('/api/ledger');
       const rows = await resp.json();
       const eligible = rows.find(r => !r.status.includes('REFUNDED'));
