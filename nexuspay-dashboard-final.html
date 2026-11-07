@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusPay — Next-Gen Autonomous Commerce Protocol</title>
+
+  <!-- Typography: Syne, Space Grotesk, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* -------------------------------------------------------------
+       DESIGN TOKENS: Strict Palette: Acid Lime + Electric Violet
+       No Amber. No Cyan. Pink for refunds. Red for rogue/blocked.
+       ------------------------------------------------------------- */
+    :root {
+      --bg-base: #0A0A0F;
+      --bg-surface: #14141C;
+      --bg-surface-elevated: #1B1B26;
+      --bg-surface-hover: #222230;
+      --bg-input: #0E0E15;
+
+      /* Signature Accent Pair */
+      --acid-lime: #C6FF3D;
+      --acid-lime-glow: rgba(198, 255, 61, 0.22);
+      --acid-lime-dim: rgba(198, 255, 61, 0.12);
+
+      --electric-violet: #7C3AED;
+      --electric-violet-hover: #6D28D9;
+      --electric-violet-glow: rgba(124, 58, 237, 0.3);
+      --electric-violet-dim: rgba(124, 58, 237, 0.14);
+
+      /* Semantic Single-Use Accents */
+      --pink-dispute: #FF4FD8;
+      --pink-dispute-dim: rgba(255, 79, 216, 0.12);
+      --pink-dispute-border: rgba(255, 79, 216, 0.35);
+
+      --red-blocked: #FF3366;
+      --red-blocked-dim: rgba(255, 51, 102, 0.14);
+      --red-blocked-border: rgba(255, 51, 102, 0.4);
+
+      /* Hairlines & Borders */
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.14);
+      --border-active: var(--acid-lime);
+
+      /* Typography Tokens */
+      --text-hero: #FFFFFF;
+      --text-body: #D4D4E0;
+      --text-muted: #8E8EA8;
+      --text-dim: #5C5C74;
+
+      --font-display: 'Syne', 'Space Grotesk', sans-serif;
+      --font-headline: 'Space Grotesk', sans-serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-pill: 9999px;
+
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-body);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Subtle Background Texture Glow */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 30%;
+      width: 700px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, rgba(198, 255, 61, 0.04) 50%, transparent 75%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Focus visible accessibility */
+    :focus-visible {
+      outline: 2px solid var(--acid-lime);
+      outline-offset: 2px;
+    }
+
+    /* -------------------------------------------------------------
+       TOP NAVIGATION BAR
+       ------------------------------------------------------------- */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 15, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 2rem;
+    }
+    .top-nav-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+    }
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--acid-lime) 0%, var(--electric-violet) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px var(--acid-lime-glow);
+    }
+    .brand-mark svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: #0A0A0F;
+      stroke-width: 2.2;
+    }
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-pill);
+      background: var(--electric-violet-dim);
+      border: 1px solid var(--electric-violet);
+      color: #D8B4FE;
+    }
+
+    /* Tabs */
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      padding: 3px;
+      border-radius: var(--radius-pill);
+      gap: 3px;
+    }
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+    }
+    .nav-tab-btn:hover {
+      color: var(--text-hero);
+      background: var(--bg-surface-elevated);
+    }
+    .nav-tab-btn.active {
+      color: #0A0A0F;
+      background: var(--acid-lime);
+      box-shadow: 0 2px 12px var(--acid-lime-glow);
+      font-weight: 700;
+    }
+    .nav-tab-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2.2;
+    }
+
+    /* Top Right Controls */
+    .nav-meta-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .live-connection-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      background: var(--acid-lime-dim);
+      border: 1px solid rgba(198, 255, 61, 0.3);
+      color: var(--acid-lime);
+      padding: 0.35rem 0.8rem;
+      border-radius: var(--radius-pill);
+    }
+    .pulsing-live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--acid-lime);
+      box-shadow: 0 0 8px var(--acid-lime);
+      animation: pulseDot 2s infinite ease-in-out;
+    }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+    }
+    .btn-haptics {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+    }
+    .btn-haptics:hover {
+      border-color: var(--border-medium);
+      color: var(--text-hero);
+    }
+    .btn-haptics.active {
+      color: var(--acid-lime);
+      border-color: rgba(198, 255, 61, 0.4);
+    }
+    .btn-haptics svg {
+      width: 13px;
+      height: 13px;
+    }
+    /* Hide on touch devices where haptic feedback is not desktop speaker */
+    @media (hover: none) and (pointer: coarse) {
+      .btn-haptics { display: none; }
+    }
+
+    /* -------------------------------------------------------------
+       SETTLEMENT TICKER STRIP
+       ------------------------------------------------------------- */
+    .ticker-bar {
+      background: #0E0E15;
+      border-bottom: 1px solid var(--border-subtle);
+      overflow: hidden;
+      white-space: nowrap;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .ticker-track {
+      display: inline-flex;
+      animation: tickerRoll 32s linear infinite;
+      gap: 2.5rem;
+      padding-left: 1rem;
+    }
+    .ticker-item {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .ticker-item strong {
+      color: var(--text-hero);
+    }
+    .ticker-tag-settled {
+      color: var(--acid-lime);
+    }
+    .ticker-tag-refunded {
+      color: var(--pink-dispute);
+    }
+    @keyframes tickerRoll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* -------------------------------------------------------------
+       DEMO CHIPS STRIP
+       ------------------------------------------------------------- */
+    .demo-strip-wrap {
+      max-width: 1440px;
+      margin: 1.2rem auto 0;
+      padding: 0 2rem;
+      width: 100%;
+    }
+    .demo-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .demo-strip-label {
+      font-family: var(--font-headline);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .demo-chip {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-body);
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .demo-chip:hover {
+      background: var(--bg-surface-elevated);
+      border-color: var(--acid-lime);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px var(--acid-lime-glow);
+    }
+    .demo-chip-num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: var(--electric-violet-dim);
+      color: #C084FC;
+      padding: 0.1rem 0.4rem;
+      border-radius: var(--radius-pill);
+    }
+
+    /* -------------------------------------------------------------
+       MAIN CONTENT CONTAINER
+       ------------------------------------------------------------- */
+    main {
+      flex: 1;
+      max-width: 1440px;
+      margin: 1.25rem auto 3rem;
+      padding: 0 2rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* -------------------------------------------------------------
+       FIVE STAT CARDS
+       ------------------------------------------------------------- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.2rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-card);
+    }
+    .stat-card:hover {
+      border-color: var(--border-medium);
+      transform: translateY(-2px);
+    }
+    .stat-card-title {
+      font-family: var(--font-headline);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-card-icon {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-dim);
+      stroke-width: 2;
+    }
+    .stat-card-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      /* Hero gradient text: Acid lime to electric violet */
+      background: linear-gradient(135deg, var(--acid-lime) 10%, #A855F7 80%, var(--electric-violet) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-card-subtext {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.35;
+      margin-top: 0.15rem;
+    }
+
+    /* Glitch effect on Tamper-Proof card */
+    .stat-card.glitch-active {
+      animation: cardGlitch 0.5s ease;
+      border-color: var(--red-blocked);
+      box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+    }
+    @keyframes cardGlitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-3px, 2px); }
+      40% { transform: translate(3px, -2px); }
+      60% { transform: translate(-2px, -1px); }
+      80% { transform: translate(2px, 2px); }
+      100% { transform: translate(0); }
+    }
+
+    /* -------------------------------------------------------------
+       WORKSPACE: LEDGER (LEFT) & AGENT PANEL (RIGHT)
+       ------------------------------------------------------------- */
+    .workspace-layout {
+      display: grid;
+      grid-template-columns: 1fr 430px;
+      gap: 1.4rem;
+      align-items: start;
+    }
+
+    /* CARD CONTAINERS */
+    .surface-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Section Headings with italic accent */
+    .section-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-hero);
+      letter-spacing: -0.02em;
+    }
+    .section-title em {
+      font-style: italic;
+      color: var(--acid-lime);
+    }
+
+    /* Search & Filter Bar */
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 240px;
+    }
+    .search-box input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 0.5rem 1rem 0.5rem 2.2rem;
+      color: var(--text-hero);
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .search-box input:focus {
+      border-color: var(--acid-lime);
+      box-shadow: 0 0 12px var(--acid-lime-glow);
+    }
+    .search-icon {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      stroke: var(--text-dim);
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      padding: 3px;
+      border-radius: var(--radius-pill);
+      gap: 2px;
+    }
+    .filter-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.8rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-btn:hover {
+      color: var(--text-hero);
+    }
+    .filter-btn.active {
+      background: var(--bg-surface-elevated);
+      color: var(--text-hero);
+      font-weight: 700;
+    }
+
+    /* -------------------------------------------------------------
+       CUSTOM LEDGER DATA TABLE (NO HORIZONTAL OVERFLOW TRUNCATION)
+       ------------------------------------------------------------- */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      background: #0D0D14;
+    }
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      min-width: 760px;
+    }
+    .ledger-table th {
+      background: #111119;
+      padding: 0.8rem 1rem;
+      font-family: var(--font-headline);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border-subtle);
+      white-space: nowrap;
+    }
+    .ledger-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.82rem;
+      color: var(--text-body);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .ledger-table tr:last-child td {
+      border-bottom: none;
+    }
+    .ledger-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .tx-id-badge {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--acid-lime);
+      font-size: 0.8rem;
+    }
+    .timestamp-cell {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+    .amount-cell {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Sticker Badges */
+    .sticker-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: transform 0.15s ease;
+      cursor: default;
+      position: relative;
+    }
+    .sticker-badge:hover {
+      transform: rotate(-1.5deg) scale(1.04);
+    }
+    .badge-settled {
+      background: var(--acid-lime-dim);
+      color: var(--acid-lime);
+      border: 1px solid rgba(198, 255, 61, 0.35);
+    }
+    .badge-settling {
+      background: var(--electric-violet-dim);
+      color: #C084FC;
+      border: 1px solid var(--electric-violet);
+      animation: pulseDot 1s infinite alternate;
+    }
+    .badge-refunded {
+      background: var(--pink-dispute-dim);
+      color: var(--pink-dispute);
+      border: 1px solid var(--pink-dispute-border);
+    }
+
+    /* Action Buttons in Table */
+    .btn-table-action {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-hero);
+      font-family: var(--font-sans);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+    .btn-table-action:hover:not(:disabled) {
+      border-color: var(--pink-dispute);
+      color: var(--pink-dispute);
+      background: var(--pink-dispute-dim);
+    }
+    .btn-table-action:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-color: transparent;
+      color: var(--text-dim);
+    }
+
+    /* -------------------------------------------------------------
+       AGENT PANEL (RIGHT)
+       ------------------------------------------------------------- */
+    .agent-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+    .agent-hero-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .agent-id-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .agent-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--acid-lime) 0%, var(--electric-violet) 100%);
+      color: #0A0A0F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .agent-name-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .agent-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .agent-role {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+    .agent-status-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--acid-lime);
+      background: var(--acid-lime-dim);
+      border: 1px solid rgba(198, 255, 61, 0.3);
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Four Goal Cards */
+    .goal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+    }
+    .goal-card {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.7rem 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .goal-card:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--acid-lime);
+      transform: translateY(-2px);
+    }
+    .goal-card.active {
+      border-color: var(--acid-lime);
+      background: rgba(198, 255, 61, 0.06);
+    }
+    .goal-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--acid-lime);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .goal-badge.badge-rogue {
+      color: var(--red-blocked);
+    }
+    .goal-badge.badge-dispute {
+      color: var(--pink-dispute);
+    }
+    .goal-title {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    /* Primary CTA with Shimmer */
+    .btn-execute {
+      background: linear-gradient(135deg, var(--acid-lime) 0%, #A3E635 100%);
+      color: #0A0A0F;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 0.85rem 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--acid-lime-glow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-execute:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(198, 255, 61, 0.45);
+    }
+    /* Shimmer effect */
+    .btn-execute::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+      transform: rotate(30deg);
+      transition: transform 0.6s ease;
+      opacity: 0;
+    }
+    .btn-execute:hover::after {
+      opacity: 1;
+      transform: rotate(30deg) translate(80%, -80%);
+    }
+
+    /* Terminal Log Container */
+    .terminal-container {
+      background: #08080C;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.9rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      line-height: 1.5;
+      min-height: 220px;
+      max-height: 260px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-dim);
+      font-size: 0.68rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .term-dots {
+      display: flex;
+      gap: 5px;
+    }
+    .term-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .terminal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .term-line {
+      word-break: break-all;
+    }
+    .term-prompt {
+      color: var(--acid-lime);
+      font-weight: 700;
+    }
+    .term-time {
+      color: var(--text-dim);
+    }
+    .term-status-ok {
+      color: var(--acid-lime);
+      font-weight: 600;
+    }
+    .term-status-warn {
+      color: #D8B4FE;
+      font-weight: 600;
+    }
+    .term-status-bad {
+      color: var(--red-blocked);
+      font-weight: 600;
+    }
+    .cursor-blink {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background: var(--acid-lime);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* -------------------------------------------------------------
+       TOOLTIPS
+       ------------------------------------------------------------- */
+    .has-tooltip {
+      position: relative;
+    }
+    .has-tooltip:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1B1B26;
+      border: 1px solid var(--border-medium);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 50;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* -------------------------------------------------------------
+       MODAL: 2FA HUMAN MULTI-SIG CHECK-IN
+       ------------------------------------------------------------- */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 1rem;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--electric-violet);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px var(--electric-violet-glow);
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .modal-title svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--electric-violet);
+    }
+    .modal-details {
+      background: #0E0E15;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: #D4D4E0;
+    }
+    .modal-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+    }
+    .btn-primary-violet {
+      background: var(--electric-violet);
+      border: none;
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      box-shadow: 0 2px 14px var(--electric-violet-glow);
+    }
+
+    /* -------------------------------------------------------------
+       RESPONSIVE BREAKPOINTS (1440px -> Tablet -> 390px Mobile)
+       ------------------------------------------------------------- */
+    @media (max-width: 1100px) {
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .workspace-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .top-nav { padding: 0.75rem 1rem; }
+      .demo-strip-wrap { padding: 0 1rem; }
+      main { padding: 0 1rem; }
+      .top-nav-inner { flex-direction: column; align-items: stretch; gap: 0.8rem; }
+      .nav-tabs { overflow-x: auto; justify-content: flex-start; }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      /* On mobile: agent panel moves ABOVE the ledger per prompt spec */
+      .workspace-layout {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       RESPECT PREFERS-REDUCED-MOTION
+       ------------------------------------------------------------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .pulsing-live-dot { animation: none; }
+      .ticker-track { animation: none; }
+      .cursor-blink { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <nav class="top-nav" aria-label="Main Navigation">
+    <div class="top-nav-inner">
+      <div class="brand-block">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="brand-title">
+          NexusPay
+          <span class="brand-tag">Autonomous Protocol</span>
+        </div>
+      </div>
+
+      <!-- Center Tabs -->
+      <div class="nav-tabs" role="tablist">
+        <button class="nav-tab-btn active" role="tab" aria-selected="true" id="tab-tx">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Transactions
+        </button>
+        <button class="nav-tab-btn" role="tab" aria-selected="false" id="tab-vault">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Mandate Vault
+        </button>
+        <button class="nav-tab-btn" role="tab" aria-selected="false" id="tab-dispute">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Dispute Oracle
+        </button>
+        <button class="nav-tab-btn" role="tab" aria-selected="false" id="tab-webhooks">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg>
+          Webhooks
+        </button>
+      </div>
+
+      <!-- Right Controls -->
+      <div class="nav-meta-controls">
+        <div class="live-connection-badge">
+          <div class="pulsing-live-dot" aria-hidden="true"></div>
+          <span>PayPal Sandbox Connected</span>
+        </div>
+        <button class="btn-haptics active" id="btnHapticsToggle" aria-label="Toggle sound feedback">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <span>Feedback: <strong id="hapticText">On</strong></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Live Settlements Scrolling Ticker -->
+  <div class="ticker-bar" aria-label="Recent Settlement Stream">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-item"><span class="ticker-tag-settled">● SETTLED</span> <strong>TX-213618</strong> AWS EC2 ($349.00) • Amazon Web Services</span>
+      <span class="ticker-item"><span class="ticker-tag-settled">● SETTLED</span> <strong>TX-984099</strong> AWS EC2 ($349.00) • Amazon Web Services</span>
+      <span class="ticker-item"><span class="ticker-tag-refunded">● REFUNDED</span> <strong>TX-830024</strong> Docker Business ($288.00) • Docker Inc</span>
+      <span class="ticker-item"><span class="ticker-tag-settled">● SETTLED</span> <strong>TX-984102</strong> Docker Business ($288.00) • Docker Inc</span>
+      <!-- Duplicate for infinite marquee loop -->
+      <span class="ticker-item"><span class="ticker-tag-settled">● SETTLED</span> <strong>TX-213618</strong> AWS EC2 ($349.00) • Amazon Web Services</span>
+      <span class="ticker-item"><span class="ticker-tag-settled">● SETTLED</span> <strong>TX-984099</strong> AWS EC2 ($349.00) • Amazon Web Services</span>
+      <span class="ticker-item"><span class="ticker-tag-refunded">● REFUNDED</span> <strong>TX-830024</strong> Docker Business ($288.00) • Docker Inc</span>
+      <span class="ticker-item"><span class="ticker-tag-settled">● SETTLED</span> <strong>TX-984102</strong> Docker Business ($288.00) • Docker Inc</span>
+    </div>
+  </div>
+
+  <!-- Row of Four Demo Chips -->
+  <div class="demo-strip-wrap">
+    <div class="demo-strip">
+      <span class="demo-strip-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Demo Scenarios:
+      </span>
+      <button class="demo-chip" id="chip01">
+        <span class="demo-chip-num">01</span>
+        <span>Auto-buy Docker ($288)</span>
+      </button>
+      <button class="demo-chip" id="chip02">
+        <span class="demo-chip-num">02</span>
+        <span>2FA catches an EC2 buy ($349)</span>
+      </button>
+      <button class="demo-chip" id="chip03">
+        <span class="demo-chip-num">03</span>
+        <span>Tamper attack on the vault</span>
+      </button>
+      <button class="demo-chip" id="chip04">
+        <span class="demo-chip-num">04</span>
+        <span>Dispute an SLA breach, get refunded</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main>
+
+    <!-- Five Stat Cards -->
+    <section class="stats-grid" aria-label="Protocol Summary Statistics">
+      <div class="stat-card" id="cardSettledVolume">
+        <div class="stat-card-title">
+          <span>Settled Volume</span>
+          <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+        </div>
+        <div class="stat-card-value" id="valSettledVolume" data-target="986">$0.00</div>
+        <div class="stat-card-subtext">Live, PayPal Orders v2 Captures</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">
+          <span>Agent Orders</span>
+          <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="stat-card-value" id="valAgentOrders" data-target="4">0</div>
+        <div class="stat-card-subtext">Dispatched by Agent Alpha</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">
+          <span>Refunds Won</span>
+          <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="stat-card-value" id="valRefundsWon" data-target="288" style="background: linear-gradient(135deg, var(--pink-dispute) 20%, #A855F7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$0.00</div>
+        <div class="stat-card-subtext">100% win rate on SLA breaches</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-title">
+          <span>Human Check-ins</span>
+          <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg>
+        </div>
+        <div class="stat-card-value" id="valHumanCheckins" data-target="1" style="background: linear-gradient(135deg, #D8B4FE 20%, var(--electric-violet) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+        <div class="stat-card-subtext">Times a human had to say yes</div>
+      </div>
+
+      <div class="stat-card" id="cardTamperProof">
+        <div class="stat-card-title">
+          <span>Tamper-Proof</span>
+          <svg class="stat-card-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="stat-card-value" id="valTamperProof" data-target="100">0%</div>
+        <div class="stat-card-subtext">Every order HMAC-SHA256 signed</div>
+      </div>
+    </section>
+
+    <!-- Workspace: Ledger (Left) + Agent Command Panel (Right) -->
+    <section class="workspace-layout">
+
+      <!-- LEFT: Live Settlements Table -->
+      <div class="surface-card">
+        <div class="section-header-row">
+          <h2 class="section-title">Live <em>Settlements</em></h2>
+
+          <div class="controls-bar">
+            <div class="search-box">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="searchLedger" placeholder="Hunt a TX, vendor or ID..." aria-label="Search transactions">
+            </div>
+
+            <div class="filter-group" role="group" aria-label="Transaction Filter">
+              <button class="filter-btn active" data-filter="ALL">Everything</button>
+              <button class="filter-btn" data-filter="SETTLED">Settled</button>
+              <button class="filter-btn" data-filter="REFUNDED">Refunded</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="ledger-table" id="ledgerTable">
+            <thead>
+              <tr>
+                <th scope="col">TX ID</th>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Asset</th>
+                <th scope="col">Method</th>
+                <th scope="col">Amount (USD)</th>
+                <th scope="col">Provider</th>
+                <th scope="col">Settlement Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerTableBody">
+              <!-- Exact Screenshot Rows -->
+              <tr data-status="SETTLED" data-tx="TX-213618">
+                <td><span class="tx-id-badge">TX-213618</span></td>
+                <td class="timestamp-cell">2026-11-06 00:07:10</td>
+                <td><strong>AWS EC2 m6i.4xlarge</strong> 1-Yr Standard RI</td>
+                <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
+                <td class="amount-cell">$349.00</td>
+                <td>Amazon Web Services</td>
+                <td><span class="sticker-badge badge-settled">Settled</span></td>
+                <td><button class="btn-table-action" onclick="triggerDispute('TX-213618')">Dispute it</button></td>
+              </tr>
+
+              <tr data-status="SETTLED" data-tx="TX-984099">
+                <td><span class="tx-id-badge">TX-984099</span></td>
+                <td class="timestamp-cell">2026-11-03 08:15:44</td>
+                <td><strong>AWS EC2 m6i.4xlarge</strong> 1-Yr Standard RI</td>
+                <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
+                <td class="amount-cell">$349.00</td>
+                <td>Amazon Web Services</td>
+                <td><span class="sticker-badge badge-settled">Settled</span></td>
+                <td><button class="btn-table-action" onclick="triggerDispute('TX-984099')">Dispute it</button></td>
+              </tr>
+
+              <tr data-status="REFUNDED" data-tx="TX-830024">
+                <td><span class="tx-id-badge">TX-830024</span></td>
+                <td class="timestamp-cell">2026-11-06 00:07:10</td>
+                <td><strong>Docker Business</strong> Subscription</td>
+                <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
+                <td class="amount-cell">$288.00</td>
+                <td>Docker Inc</td>
+                <td>
+                  <span class="sticker-badge badge-refunded has-tooltip" data-tooltip="REFUNDED (DISPUTE RESOLVED)">
+                    Refunded
+                  </span>
+                </td>
+                <td><button class="btn-table-action" disabled>Resolved by oracle</button></td>
+              </tr>
+
+              <tr data-status="SETTLED" data-tx="TX-984102">
+                <td><span class="tx-id-badge">TX-984102</span></td>
+                <td class="timestamp-cell">2026-11-03 08:30:12</td>
+                <td><strong>Docker Business</strong> Subscription</td>
+                <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
+                <td class="amount-cell">$288.00</td>
+                <td>Docker Inc</td>
+                <td><span class="sticker-badge badge-settled">Settled</span></td>
+                <td><button class="btn-table-action" onclick="triggerDispute('TX-984102')">Dispute it</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RIGHT: Agent Panel -->
+      <div class="surface-card agent-panel">
+        <div class="agent-hero-card">
+          <div class="agent-id-lockup">
+            <div class="agent-avatar">α</div>
+            <div class="agent-name-wrap">
+              <span class="agent-name">Agent-Alpha</span>
+              <span class="agent-role">Autonomous Procurement Engine</span>
+            </div>
+          </div>
+          <div class="agent-status-tag">
+            <div class="pulsing-live-dot" aria-hidden="true"></div>
+            <span>ONLINE</span>
+          </div>
+        </div>
+
+        <!-- Four Goal Cards -->
+        <div class="goal-grid">
+          <div class="goal-card active" id="goalDevOps" tabindex="0">
+            <span class="goal-badge">DEV-OPS</span>
+            <span class="goal-title">Docker Business $288</span>
+          </div>
+          <div class="goal-card" id="goalHighVal" tabindex="0">
+            <span class="goal-badge" style="color:#C084FC;">HIGH-VAL</span>
+            <span class="goal-title">AWS EC2 $349 &gt; 2FA</span>
+          </div>
+          <div class="goal-card" id="goalRogue" tabindex="0">
+            <span class="goal-badge badge-rogue">ROGUE-ATTACK</span>
+            <span class="goal-title">Unverified Miner</span>
+          </div>
+          <div class="goal-card" id="goalDispute" tabindex="0">
+            <span class="goal-badge badge-dispute">DISPUTE</span>
+            <span class="goal-title">Trigger SLA Oracle</span>
+          </div>
+        </div>
+
+        <!-- Primary Shimmer Action Button -->
+        <button class="btn-execute" id="btnExecute">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Let Agent-Alpha Shop</span>
+        </button>
+
+        <!-- Terminal Log -->
+        <div class="terminal-container" aria-label="Agent Live Stream Terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <span class="term-dot"></span>
+              <span class="term-dot"></span>
+              <span class="term-dot"></span>
+            </div>
+            <span>Telemetry Shell</span>
+          </div>
+          <div class="terminal-body" id="termBody">
+            <div class="term-line">
+              <span class="term-prompt">&gt;</span> <span id="typedGreeting"></span><span class="cursor-blink" id="termCursor"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 2FA Multi-Sig Modal -->
+  <div class="modal-backdrop" id="multisigModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <h3 class="modal-title" id="modalTitle">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Human Check-in Required (2FA)
+      </h3>
+      <p style="font-size:0.85rem; color:#A1A1BA; line-height:1.5;">
+        Agent-Alpha selected an item exceeding the automated <strong>$250.00 policy ceiling</strong>. A human corporate officer must co-sign before PayPal captures funds.
+      </p>
+      <div class="modal-details" id="modalDetailsText">
+        Asset: AWS EC2 m6i.4xlarge 1-Yr Standard RI<br>
+        Merchant: Amazon Web Services<br>
+        Amount: $349.00 USD (Ceiling: $250.00)<br>
+        Mandate: MND-PROD-ALPHA-01
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="btnRejectModal">Deny Purchase</button>
+        <button class="btn-primary-violet" id="btnApproveModal">Co-Sign with Passkey</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // -------------------------------------------------------------
+    // AUDIO ENGINE (Respects Toggle & Accessibility)
+    // -------------------------------------------------------------
+    class Haptics {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      tone(f, type = 'sine', d = 0.08, vol = 0.03) {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(f, this.ctx.currentTime);
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + d);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + d);
+        } catch (e) {}
+      }
+      click() { this.tone(700, 'triangle', 0.03, 0.015); }
+      settled() {
+        this.tone(480, 'sine', 0.08, 0.03);
+        setTimeout(() => this.tone(640, 'sine', 0.12, 0.03), 70);
+      }
+      alert() {
+        this.tone(260, 'sine', 0.12, 0.04);
+        setTimeout(() => this.tone(190, 'sine', 0.16, 0.04), 80);
+      }
+    }
+    const sound = new Haptics();
+
+    const btnHapticsToggle = document.getElementById('btnHapticsToggle');
+    const hapticText = document.getElementById('hapticText');
+    btnHapticsToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      hapticText.innerText = sound.enabled ? 'On' : 'Off';
+      btnHapticsToggle.classList.toggle('active', sound.enabled);
+      if (sound.enabled) sound.click();
+    });
+
+    // -------------------------------------------------------------
+    // STAT COUNTERS COUNT UP ON LOAD
+    // -------------------------------------------------------------
+    function animateCounters() {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const countUp = (el, target, prefix = '', suffix = '', isFloat = false) => {
+        if (prefersReducedMotion) {
+          el.innerText = `${prefix}${isFloat ? target.toFixed(2) : target}${suffix}`;
+          return;
+        }
+        let current = 0;
+        const duration = 1200;
+        const steps = 30;
+        const stepTime = duration / steps;
+        const inc = target / steps;
+        const timer = setInterval(() => {
+          current += inc;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          el.innerText = `${prefix}${isFloat ? current.toFixed(2) : Math.round(current)}${suffix}`;
+        }, stepTime);
+      };
+
+      countUp(document.getElementById('valSettledVolume'), 986, '$', '', true);
+      countUp(document.getElementById('valAgentOrders'), 4, '', '');
+      countUp(document.getElementById('valRefundsWon'), 288, '$', '', true);
+      countUp(document.getElementById('valHumanCheckins'), 1, '', '');
+      countUp(document.getElementById('valTamperProof'), 100, '', '%');
+    }
+
+    // -------------------------------------------------------------
+    // TERMINAL TYPEOUT MOTION
+    // -------------------------------------------------------------
+    const initialGreeting = "Agent-Alpha is online. Drop a goal and watch it shop.";
+    let typedIndex = 0;
+    const typedGreetingEl = document.getElementById('typedGreeting');
+    const termBody = document.getElementById('termBody');
+
+    function typeWriter() {
+      if (typedIndex < initialGreeting.length) {
+        typedGreetingEl.textContent += initialGreeting.charAt(typedIndex);
+        typedIndex++;
+        setTimeout(typeWriter, 22);
+      }
+    }
+
+    function addTermLine(agent, statusType, msg) {
+      const time = new Date().toTimeString().split(' ')[0];
+      const div = document.createElement('div');
+      div.className = 'term-line';
+      let tagClass = 'term-status-ok';
+      if (statusType === 'WARN') tagClass = 'term-status-warn';
+      if (statusType === 'BAD') tagClass = 'term-status-bad';
+
+      div.innerHTML = `<span class="term-time">[${time}]</span> <strong style="color:var(--acid-lime);">[${agent}]</strong> <span class="${tagClass}">[${statusType}]</span> ${msg}`;
+      termBody.appendChild(div);
+      termBody.scrollTop = termBody.scrollHeight;
+    }
+
+    // -------------------------------------------------------------
+    // GOAL CARD SELECTION
+    // -------------------------------------------------------------
+    let currentGoal = { name: "DEV-OPS", item: "Docker Business", price: 288.00, requires2FA: false };
+    const goalCards = document.querySelectorAll('.goal-card');
+
+    goalCards.forEach(card => {
+      card.addEventListener('click', () => {
+        sound.click();
+        goalCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+
+        if (card.id === 'goalDevOps') {
+          currentGoal = { name: "DEV-OPS", item: "Docker Business", price: 288.00, requires2FA: false };
+          addTermLine('AGENT-ALPHA', 'INFO', 'Target locked: Docker Business ($288.00).');
+        } else if (card.id === 'goalHighVal') {
+          currentGoal = { name: "HIGH-VAL", item: "AWS EC2 m6i.4xlarge", price: 349.00, requires2FA: true };
+          addTermLine('AGENT-ALPHA', 'WARN', 'Target locked: AWS EC2 ($349.00 > $250.00 2FA threshold).');
+        } else if (card.id === 'goalRogue') {
+          currentGoal = { name: "ROGUE-ATTACK", item: "Unverified Hardware Miner", price: 1299.00, requires2FA: false, isRogue: true };
+          addTermLine('AGENT-ALPHA', 'BAD', 'Target locked: Unverified Hardware Miner (Rogue Policy Test).');
+        } else if (card.id === 'goalDispute') {
+          currentGoal = { name: "DISPUTE", item: "SLA Oracle", price: 0, isDispute: true };
+          addTermLine('AGENT-OMEGA', 'INFO', 'Dispute Oracle activated. Checking SLA telemetry...');
+        }
+      });
+    });
+
+    // -------------------------------------------------------------
+    // EXECUTE BUTTON -> ADDS ROW "Settling..." -> "Settled"
+    // -------------------------------------------------------------
+    const btnExecute = document.getElementById('btnExecute');
+    const ledgerTableBody = document.getElementById('ledgerTableBody');
+    const multisigModal = document.getElementById('multisigModal');
+
+    btnExecute.addEventListener('click', () => {
+      sound.click();
+
+      // If high-val, open 2FA modal first
+      if (currentGoal.requires2FA) {
+        sound.alert();
+        multisigModal.classList.add('active');
+        addTermLine('SECURITY', 'WARN', '2FA Check-in triggered: Amount exceeds $250.00 allowance.');
+        return;
+      }
+
+      if (currentGoal.isRogue) {
+        sound.alert();
+        addTermLine('POLICY-ENGINE', 'BAD', 'PURCHASE BLOCKED: Merchant not on corporate whitelist.');
+        return;
+      }
+
+      if (currentGoal.isDispute) {
+        sound.settled();
+        addTermLine('AGENT-OMEGA', 'INFO', 'SLA breach confirmed on TX-830024. Compiling SHA-256 evidence bundle...');
+        setTimeout(() => {
+          addTermLine('PAYPAL-API', 'INFO', 'Claim filed via PayPal Disputes API. Refund of $288.00 granted.');
+        }, 500);
+        return;
+      }
+
+      executeSettlement(currentGoal.item, currentGoal.price, "Docker Inc");
+    });
+
+    function executeSettlement(item, price, merchant) {
+      sound.click();
+      addTermLine('AGENT-ALPHA', 'INFO', `Evaluating mandate MND-PROD-ALPHA-01 for ${item}...`);
+
+      const newTxId = 'TX-' + Math.floor(100000 + Math.random() * 900000);
+      const timeStr = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+      // Create row with "Settling..."
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-status', 'SETTLING');
+      tr.setAttribute('data-tx', newTxId);
+      tr.innerHTML = `
+        <td><span class="tx-id-badge">${newTxId}</span></td>
+        <td class="timestamp-cell">${timeStr}</td>
+        <td><strong>${item}</strong> Subscription</td>
+        <td><span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PayPal v2</span></td>
+        <td class="amount-cell">$${price.toFixed(2)}</td>
+        <td>${merchant}</td>
+        <td><span class="sticker-badge badge-settling" id="status-${newTxId}">Settling...</span></td>
+        <td><button class="btn-table-action" onclick="triggerDispute('${newTxId}')">Dispute it</button></td>
+      `;
+
+      ledgerTableBody.insertBefore(tr, ledgerTableBody.firstChild);
+
+      // Transition from Settling... -> Settled
+      setTimeout(() => {
+        const badge = document.getElementById(`status-${newTxId}`);
+        if (badge) {
+          badge.className = 'sticker-badge badge-settled';
+          badge.innerText = 'Settled';
+        }
+        tr.setAttribute('data-status', 'SETTLED');
+        sound.settled();
+        addTermLine('PAYPAL-ORDERS-V2', 'INFO', `Order captured successfully. Nonce cleared on ledger.`);
+
+        // Increment stats
+        const volEl = document.getElementById('valSettledVolume');
+        const currVol = parseFloat(volEl.innerText.replace('$', '')) || 986;
+        volEl.innerText = `$${(currVol + price).toFixed(2)}`;
+
+        const ordersEl = document.getElementById('valAgentOrders');
+        const currOrders = parseInt(ordersEl.innerText, 10) || 4;
+        ordersEl.innerText = currOrders + 1;
+      }, 900);
+    }
+
+    // Modal 2FA Buttons
+    document.getElementById('btnApproveModal').addEventListener('click', () => {
+      sound.settled();
+      multisigModal.classList.remove('active');
+      addTermLine('AUTH', 'INFO', 'Corporate officer co-signed with Passkey.');
+
+      const checkinEl = document.getElementById('valHumanCheckins');
+      const currCheckins = parseInt(checkinEl.innerText, 10) || 1;
+      checkinEl.innerText = currCheckins + 1;
+
+      executeSettlement("AWS EC2 m6i.4xlarge", 349.00, "Amazon Web Services");
+    });
+    document.getElementById('btnRejectModal').addEventListener('click', () => {
+      sound.alert();
+      multisigModal.classList.remove('active');
+      addTermLine('AUTH', 'BAD', 'Human officer rejected 2FA. PayPal capture aborted.');
+    });
+
+    // -------------------------------------------------------------
+    // DISPUTE BUTTON HANDLER
+    // -------------------------------------------------------------
+    window.triggerDispute = function(txId) {
+      sound.click();
+      addTermLine('AGENT-OMEGA', 'INFO', `Dispute initiated for ${txId}. Verifying SLA metrics...`);
+      setTimeout(() => {
+        sound.settled();
+        addTermLine('DISPUTES-ENGINE', 'INFO', `Deterministic SHA-256 evidence package compiled. Refund resolved in buyer favor.`);
+
+        // Find table row and update badge to Refunded
+        const tr = document.querySelector(`tr[data-tx="${txId}"]`);
+        if (tr) {
+          tr.setAttribute('data-status', 'REFUNDED');
+          const statusTd = tr.querySelector('td:nth-child(7)');
+          if (statusTd) {
+            statusTd.innerHTML = `<span class="sticker-badge badge-refunded has-tooltip" data-tooltip="REFUNDED (DISPUTE RESOLVED)">Refunded</span>`;
+          }
+          const actionTd = tr.querySelector('td:nth-child(8)');
+          if (actionTd) {
+            actionTd.innerHTML = `<button class="btn-table-action" disabled>Resolved by oracle</button>`;
+          }
+        }
+      }, 700);
+    };
+
+    // -------------------------------------------------------------
+    // SEARCH & FILTERING (Everything / Settled / Refunded)
+    // -------------------------------------------------------------
+    const searchInput = document.getElementById('searchLedger');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+      const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+      const rows = ledgerTableBody.querySelectorAll('tr');
+
+      rows.forEach(row => {
+        const rowText = row.innerText.toLowerCase();
+        const rowStatus = row.getAttribute('data-status');
+        const matchesSearch = rowText.includes(query);
+        const matchesFilter = (activeFilter === 'ALL') || (rowStatus === activeFilter);
+
+        row.style.display = (matchesSearch && matchesFilter) ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sound.click();
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilters();
+      });
+    });
+
+    // -------------------------------------------------------------
+    // DEMO CHIPS CLICK HANDLERS
+    // -------------------------------------------------------------
+    document.getElementById('chip01').addEventListener('click', () => {
+      sound.click();
+      document.getElementById('goalDevOps').click();
+      document.getElementById('btnExecute').click();
+    });
+
+    document.getElementById('chip02').addEventListener('click', () => {
+      sound.click();
+      document.getElementById('goalHighVal').click();
+      document.getElementById('btnExecute').click();
+    });
+
+    document.getElementById('chip03').addEventListener('click', () => {
+      sound.alert();
+      const card = document.getElementById('cardTamperProof');
+      card.classList.add('glitch-active');
+      addTermLine('VAULT', 'BAD', 'ALERT: Payload hash mismatch. Signature rejected (tamper attack thwarted).');
+      setTimeout(() => card.classList.remove('glitch-active'), 600);
+    });
+
+    document.getElementById('chip04').addEventListener('click', () => {
+      sound.click();
+      document.getElementById('goalDispute').click();
+      document.getElementById('btnExecute').click();
+    });
+
+    // Nav tabs simple active state
+    document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sound.click();
+        document.querySelectorAll('.nav-tab-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+      });
+    });
+
+    // -------------------------------------------------------------
+    // INITIALIZATION
+    // -------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      animateCounters();
+      typeWriter();
+    });
+  </script>
+</body>
+</html>
