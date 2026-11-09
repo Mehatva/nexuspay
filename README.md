@@ -82,7 +82,7 @@ When an AI agent procures a digital asset (e.g., API seat, cloud instance) and t
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-org/nexuspay.git
+git clone https://github.com/Mehatva/nexuspay.git
 cd nexuspay
 
 # 2. Set up virtual environment
