@@ -208,7 +208,7 @@ Instead of handing an AI agent an unrestricted corporate credit card or a raw AP
 
 > ⏱️ **Total Time:** 2 minutes 45 seconds (Target is strictly under 3:00).  
 > **Screen Resolution:** 1920x1080 (100% zoom).  
-> **URL:** `http://127.0.0.1:8000/` (or your live Vercel URL).
+> **URL:** `https://nexuspay-five-iota.vercel.app` (or your live Vercel URL).
 
 ---
 
