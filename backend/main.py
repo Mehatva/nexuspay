@@ -4,7 +4,7 @@ from typing import Dict, Any, List, Optional
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 
 from backend.core.mandate import SpendingMandate, CryptographicEngine
@@ -271,8 +271,20 @@ if os.path.exists(STATIC_DIR):
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 @app.get("/")
+@app.get("/index.html")
+@app.get("/dashboard")
 async def root_index():
-    index_file = os.path.join(STATIC_DIR, "index.html")
-    if os.path.exists(index_file):
-        return FileResponse(index_file)
+    candidate_paths = [
+        os.path.join(os.path.dirname(__file__), "..", "index.html"),
+        os.path.join(os.path.dirname(__file__), "..", "frontend", "index.html"),
+        os.path.join(os.path.dirname(__file__), "..", "nexuspay-dashboard-final.html"),
+        os.path.join(os.getcwd(), "index.html"),
+        os.path.join(os.getcwd(), "frontend", "index.html"),
+        "/var/task/index.html",
+        "/var/task/frontend/index.html"
+    ]
+    for path in candidate_paths:
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                return HTMLResponse(content=f.read(), status_code=200)
     return {"message": "NexusPay API running. Frontend static file not found."}
