@@ -273,18 +273,38 @@ if os.path.exists(STATIC_DIR):
 @app.get("/")
 @app.get("/index.html")
 @app.get("/dashboard")
+@app.get("/api/index.py")
 async def root_index():
     candidate_paths = [
+        os.path.join(os.path.dirname(__file__), "index.html"),
         os.path.join(os.path.dirname(__file__), "..", "index.html"),
+        os.path.join(os.path.dirname(__file__), "..", "api", "index.html"),
         os.path.join(os.path.dirname(__file__), "..", "frontend", "index.html"),
         os.path.join(os.path.dirname(__file__), "..", "nexuspay-dashboard-final.html"),
         os.path.join(os.getcwd(), "index.html"),
         os.path.join(os.getcwd(), "frontend", "index.html"),
         "/var/task/index.html",
+        "/var/task/backend/index.html",
         "/var/task/frontend/index.html"
     ]
     for path in candidate_paths:
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 return HTMLResponse(content=f.read(), status_code=200)
-    return {"message": "NexusPay API running. Frontend static file not found."}
+    return HTMLResponse(content="<h1>NexusPay Protocol Running</h1><p>Frontend loading...</p>", status_code=200)
+
+@app.get("/api")
+@app.get("/api/")
+async def api_info():
+    return {
+        "status": "online",
+        "service": "NexusPay Autonomous Protocol API",
+        "dashboard": "/",
+        "endpoints": ["/api/health", "/api/catalog", "/api/mandates", "/api/ledger", "/api/webhooks"]
+    }
+
+@app.get("/{full_path:path}")
+async def catch_all_routes(full_path: str):
+    if full_path.startswith("api/"):
+        raise HTTPException(status_code=404, detail=f"API route /{full_path} not found")
+    return await root_index()
